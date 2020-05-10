@@ -9,4 +9,4 @@ requests==2.22.0
 six==1.13.0
 urllib3==1.25.7
 matplotlib==3.2.1
-json=2.0.9
+json==2.0.9
