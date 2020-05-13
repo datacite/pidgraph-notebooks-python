@@ -6,7 +6,7 @@
 ### Examples of GraphQL Queries Used:
 * Get outputs of [FREYA grant award](https://cordis.europa.eu/project/id/777523) from [European Commission](https://doi.org/10.13039/501100000780)
 
-```GraphQL
+```
 {
 funder(id: "https://doi.org/10.13039/501100000780") {
   name
