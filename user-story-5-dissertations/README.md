@@ -19,11 +19,15 @@ dissertations(query: "Machine learning", first: 100) {
       titles {
         title
       }
+      descriptions {
+         description
+      }
       versionOfCount
       identifiers {
         identifier
       }
       publicationYear
+      bibtex
       repository {
         id
       }
