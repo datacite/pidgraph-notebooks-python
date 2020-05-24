@@ -13,6 +13,7 @@
     titles {
       title
     }
+    publicationYear
     descriptions {
       description
       descriptionType
@@ -27,10 +28,7 @@
         titles {
           title
         }
-        dates {
-          dateType
-          date
-        }
+        publicationYear
         descriptions {
           description
           descriptionType
