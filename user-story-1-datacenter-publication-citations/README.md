@@ -1,7 +1,7 @@
 ## [FREYA](https://www.project-freya.eu/en) WP2 [User Story 1](https://github.com/datacite/freya/issues/30): As a data center, I want to see the citations of publications that use my repository for the underlying data, so that I can demonstrate the impact of our repository. 
 
 ### Jupyter Notebook:
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/datacite/pidgraph-notebooks-python/master?filepath=user-story-1-datacenter-publication-citations%2Fpy-datacenter-publication-citations.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/datacite/pidgraph-notebooks-python/master?filepath=user-story-1-datacenter-publication-citations%2Fpy-datacenter-publication-citations-with-output.ipynb)
 
 ### Examples of GraphQL Queries Used:
 

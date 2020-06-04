@@ -1,7 +1,7 @@
 ## [FREYA](https://www.project-freya.eu/en) WP2 [User Story 8](https://github.com/datacite/freya/issues/38): As a longitudinal study, I want to be able to deduplicate the metrics/impact for our data, so that I can see the impact of our study’s data as a whole.
                    
 ### Jupyter Notebook:
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/datacite/pidgraph-notebooks-python/master?filepath=user-story-8-impacts-of-data%2Fpy-impacts-of-data.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/datacite/pidgraph-notebooks-python/master?filepath=user-story-8-impacts-of-data%2Fpy-impacts-of-data-with-output.ipynb)
 
 ### Examples of GraphQL Queries Used:
 * Retrieve the dataset: [2014 TCCON Data Release](https://doi.org/10.14291/tccon.ggg2014), including all its parts.
