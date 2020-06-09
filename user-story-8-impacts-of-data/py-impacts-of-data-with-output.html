@@ -11791,11 +11791,11 @@ div#notebook {
 </tr>
 </tbody>
 </table>
-<p>This notebook uses the <a href="https://api.datacite.org/graphql">DataCite GraphQL API</a> to retrieve <a href="https://doi.org/10.14291/tccon.ggg2014">2014 TCCON Data Release dataset</a>, including all its parts, so that its overall impact can be quantified.</p>
+<p>This notebook uses the <a href="https://api.datacite.org/graphql">DataCite GraphQL API</a> to retrieve all parts of the dataset:  <a href="https://doi.org/10.14291/tccon.ggg2014">2014 TCCON Data Release dataset</a>, so that its overall impact can be quantified.</p>
 <p><strong>Goal</strong>: By the end of this notebook, for a given dataset with constituent parts, you should be able to display:</p>
 <ul>
 <li>Counts of citations, views and downloads metrics, aggregated across the parent dataset and all its parts;</li>
-<li>An interactive stacked bar plot showing how the metric counts of each part contribute to the corresponding aggregated metric counts.</li>
+<li>An interactive stacked bar plot showing how the metric counts of each part contribute to the corresponding aggregated metric counts, e.g. <br> <img src="example_plot.png" width="240" height="233" /></li>
 </ul>
 
 </div>
@@ -11867,7 +11867,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[146]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Generate the GraphQL query to retrieve the 2014 TCCON Data Release dataset.</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Generate the GraphQL query to retrieve all parts of the 2014 TCCON Data Release dataset.</span>
 <span class="n">query_params</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;datasetId&quot;</span> <span class="p">:</span> <span class="s2">&quot;https://doi.org/10.14291/tccon.ggg2014&quot;</span>
 <span class="p">}</span>
