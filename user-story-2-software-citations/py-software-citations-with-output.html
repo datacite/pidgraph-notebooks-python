@@ -11781,7 +11781,7 @@ div#notebook {
 <table>
 <thead><tr>
 <th style="text-align:left"><img src="https://github.com/datacite/pidgraph-notebooks-python/blob/master/images/freya_200x121.png?raw=true" alt="FREYA Logo"></th>
-<th style="text-align:left"><a href="https://www.project-freya.eu/en">FREYA</a> WP2 <a href="https://github.com/datacite/freya/issues/63">User Story 8</a></th>
+<th style="text-align:left"><a href="https://www.project-freya.eu/en">FREYA</a> WP2 <a href="https://github.com/datacite/freya/issues/63">User Story 2</a></th>
 <th style="text-align:left">As a software author, I want to be able to see the citations of my software aggregated across all versions, so that I see a complete picture of reuse.</th>
 </tr>
 </thead>
@@ -11791,11 +11791,11 @@ div#notebook {
 </tr>
 </tbody>
 </table>
-<p>This notebook uses the <a href="https://api.datacite.org/graphql">DataCite GraphQL API</a> to retrieve software: <a href="https://doi.org/10.5281/zenodo.2799488">Calculation Package: Inverting topography for landscape evolution model process representation</a>, including all its versions, so that its overall reuse can be quantified.</p>
+<p>This notebook uses the <a href="https://api.datacite.org/graphql">DataCite GraphQL API</a> to retrieve metadata about software titled: <a href="https://doi.org/10.5281/zenodo.2799488">Calculation Package: Inverting topography for landscape evolution model process representation</a>, including all its versions, so that its overall reuse can be quantified.</p>
 <p><strong>Goal</strong>: By the end of this notebook, for a given software you should be able to display:</p>
 <ul>
-<li>Counts of citations, views and downloads metrics, aggregated across all versions of the software</li>
-<li>An interactive stacked bar plot showing how the metric counts of each version contribute to the corresponding aggregated metric counts.</li>
+<li>Counts of <ins>citations, views and downloads</ins> metrics, aggregated across all versions of the software</li>
+<li>An interactive stacked bar plot showing how the metric counts of each version contribute to the corresponding aggregated metric counts, e.g.<br> <img src="example_plot.png" width="258" height="215" /></li>
 </ul>
 
 </div>
@@ -11812,7 +11812,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">capture</span>
@@ -11827,7 +11827,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Prepare the GraphQL client</span>
@@ -11857,14 +11857,14 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Define-and-run-GraphQL-query">Define and run GraphQL query<a class="anchor-link" href="#Define-and-run-GraphQL-query">&#182;</a></h2><p>Define the GraphQL query to retrieve metadata for software: <a href="https://doi.org/10.5281/zenodo.2799488">Calculation Package: Inverting topography for landscape evolution model process representation</a>.</p>
+<h2 id="Define-and-run-GraphQL-query">Define and run GraphQL query<a class="anchor-link" href="#Define-and-run-GraphQL-query">&#182;</a></h2><p>Define the GraphQL query to retrieve metadata for the software titled: <a href="https://doi.org/10.5281/zenodo.2799488">Calculation Package: Inverting topography for landscape evolution model process representation</a> using its DOI.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Generate the GraphQL query to retrieve the required software</span>
@@ -11940,7 +11940,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
@@ -11957,14 +11957,14 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Display-total-software-metrics">Display total software metrics<a class="anchor-link" href="#Display-total-software-metrics">&#182;</a></h2><p>Display total number of citations, views and downloads across all versions of software: <a href="https://doi.org/10.5281/zenodo.2799488">Calculation Package: Inverting topography for landscape evolution model process representation</a>.</p>
+<h2 id="Display-total-software-metrics">Display total software metrics<a class="anchor-link" href="#Display-total-software-metrics">&#182;</a></h2><p>Display total number of <ins>citations, views and downloads</ins> across all versions of software: <a href="https://doi.org/10.5281/zenodo.2799488">Calculation Package: Inverting topography for landscape evolution model process representation</a>.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Get the total count per metric, aggregated for across all versions of the software</span>
@@ -12001,7 +12001,7 @@ div#notebook {
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<p>Aggregated metric counts for <a href="https://doi.org/10.5281/zenodo.2799488">Calculation Package: Inverting topography for landscape evolution model process representation</a> across all its versions:</p>
+<p>Aggregated metric counts for software: <a href="https://doi.org/10.5281/zenodo.2799488">Calculation Package: Inverting topography for landscape evolution model process representation</a> across all its versions:</p>
 
 </div>
 
@@ -12048,7 +12048,7 @@ downloadCount | <strong>0</strong></p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">plotly.io</span> <span class="k">as</span> <span class="nn">pio</span>
@@ -12138,7 +12138,7 @@ downloadCount | <strong>0</strong></p>
 </div>
 
 <div class="output_area">
-<div class="prompt output_prompt">Out[52]:</div>
+<div class="prompt output_prompt">Out[6]:</div>
 
 
 <div class="output_html rendered_html output_subarea output_execute_result">
@@ -12155,19 +12155,6 @@ downloadCount | <strong>0</strong></p>
 
 </div>
 
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-</div>
 </div>
 </div>
 
