@@ -11794,9 +11794,9 @@ div#notebook {
 <p>This notebook uses the <a href="https://api.datacite.org/graphql">DataCite GraphQL API</a> to retrieve all publications of <a href="https://orcid.org/0000-0002-6294-6366">Dr Sarah Teichmann</a>.</p>
 <p><strong>Goal</strong>: By the end of this notebook, for a researcher of interest, you should be able to:</p>
 <ul>
-<li>Display an interactive sankey plot of the researcher's publication co-authors;</li>
+<li>Display an interactive sankey plot of the researcher's publication co-authors, e.g. <br> <img src="example_plot.png" width="286" height="209" /></li>
 <li>Download a file containing their publication DOIs;</li>
-<li>Load the above file into <a href="https://www.vosviewer.com/">VOSviewer</a> and then construct and visualise the researcher's co-authorship network, following the steps listed in the notebook.</li>
+<li>Load the above file into <a href="https://www.vosviewer.com/">VOSviewer</a> and then construct and visualise the researcher's co-authorship network, following the steps listed in the notebook, e.g. <br> <img src="VOSviewer_network.png" width="305" height="188" /></li>
 </ul>
 
 </div>
@@ -11813,7 +11813,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[208]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">capture</span>
@@ -11828,7 +11828,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[209]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Prepare the GraphQL client</span>
@@ -11865,7 +11865,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[231]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Generate the GraphQL query: find all publications, including co-authors or researcher id: &quot;https://orcid.org/0000-0002-6294-6366&quot;</span>
@@ -11881,7 +11881,7 @@ div#notebook {
 <span class="s2">    name</span>
 <span class="s2">    publications(first:$maxWorks) {</span>
 <span class="s2">      totalCount</span>
-<span class="s2">      years {</span>
+<span class="s2">      published {</span>
 <span class="s2">        title</span>
 <span class="s2">        count</span>
 <span class="s2">      }</span>
@@ -11920,7 +11920,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[211]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
@@ -11944,7 +11944,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[212]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Get the total number of publication to date</span>
@@ -11965,7 +11965,7 @@ div#notebook {
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<p>66</p>
+<p>67</p>
 
 </div>
 
@@ -11987,7 +11987,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[221]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
@@ -12094,7 +12094,7 @@ div#notebook {
 </div>
 
 <div class="output_area">
-<div class="prompt output_prompt">Out[221]:</div>
+<div class="prompt output_prompt">Out[7]:</div>
 
 
 <div class="output_html rendered_html output_subarea output_execute_result">
@@ -12135,7 +12135,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[216]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -12192,12 +12192,12 @@ div#notebook {
 
 
 
-<div id="634af542-05c9-490a-914b-bc4f17e94a94"></div>
+<div id="236a9ad1-6dab-49b2-ac13-67386c959cae"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#634af542-05c9-490a-914b-bc4f17e94a94');
+var element = $('#236a9ad1-6dab-49b2-ac13-67386c959cae');
 
-var csv = 'https://doi.org/10.1101/2019.12.12.871657\nhttps://doi.org/10.1126/science.aan6828\nhttps://doi.org/10.1126/science.aah4115\nhttps://doi.org/10.1038/s41592-018-0082-3\nhttps://doi.org/10.17863/cam.40023\nhttps://doi.org/10.17863/cam.39971\nhttps://doi.org/10.17863/cam.39986\nhttps://doi.org/10.17863/cam.39985\nhttps://doi.org/10.17863/cam.40022\nhttps://doi.org/10.17863/cam.37473\nhttps://doi.org/10.17863/cam.8651\nhttps://doi.org/10.17863/cam.39967\nhttps://doi.org/10.1038/s41467-018-07771-0\nhttps://doi.org/10.1101/338178\nhttps://doi.org/10.1126/science.aay3224\nhttps://doi.org/10.17863/cam.20316\nhttps://doi.org/10.17863/cam.40027\nhttps://doi.org/10.17863/cam.40038\nhttps://doi.org/10.17863/cam.47223\nhttps://doi.org/10.17863/cam.47246\nhttps://doi.org/10.17863/cam.44717\nhttps://doi.org/10.17863/cam.40039\nhttps://doi.org/10.17863/cam.40026\nhttps://doi.org/10.1101/2020.01.28.911115\nhttps://doi.org/10.1038/s41467-019-11266-x\nhttps://doi.org/10.1126/sciimmunol.aal2192\nhttps://doi.org/10.1101/413047\nhttps://doi.org/10.1126/science.aat5031\nhttps://doi.org/10.1101/gr.207704.116\nhttps://doi.org/10.1038/s41590-020-0602-z\nhttps://doi.org/10.17863/cam.39984\nhttps://doi.org/10.17863/cam.46893\nhttps://doi.org/10.17863/cam.39987\nhttps://doi.org/10.17863/cam.40037\nhttps://doi.org/10.17863/cam.9696\nhttps://doi.org/10.17863/cam.26822\nhttps://doi.org/10.17863/cam.33936\nhttps://doi.org/10.17863/cam.40029\nhttps://doi.org/10.17863/cam.9293\nhttps://doi.org/10.17863/cam.40030\nhttps://doi.org/10.17863/cam.52896\nhttps://doi.org/10.1038/s41467-019-14171-5\nhttps://doi.org/10.1126/science.aat1699\nhttps://doi.org/10.1038/s41467-018-07307-6\nhttps://doi.org/10.1101/309831\nhttps://doi.org/10.1101/709998\nhttps://doi.org/10.17863/cam.6611\nhttps://doi.org/10.17863/cam.39972\nhttps://doi.org/10.17863/cam.39969\nhttps://doi.org/10.17863/cam.39964\nhttps://doi.org/10.17863/cam.50702\nhttps://doi.org/10.17863/cam.40034\nhttps://doi.org/10.17863/cam.40036\nhttps://doi.org/10.1038/s41591-019-0468-5\nhttps://doi.org/10.1038/s41592-019-0692-4\nhttps://doi.org/10.1038/s41556-019-0333-2\nhttps://doi.org/10.1242/dev.152561\nhttps://doi.org/10.1038/s41592-018-0254-1\nhttps://doi.org/10.26508/lsa.201800124\nhttps://doi.org/10.1101/397042\nhttps://doi.org/10.17863/cam.47221\nhttps://doi.org/10.17863/cam.39965\nhttps://doi.org/10.17863/cam.27576\nhttps://doi.org/10.17863/cam.47621\nhttps://doi.org/10.17863/cam.40025\nhttps://doi.org/10.17863/cam.40032\n';
+var csv = 'https://doi.org/10.1101/2019.12.12.871657\nhttps://doi.org/10.1126/science.aan6828\nhttps://doi.org/10.1126/science.aah4115\nhttps://doi.org/10.1038/s41592-018-0082-3\nhttps://doi.org/10.17863/cam.40023\nhttps://doi.org/10.17863/cam.39971\nhttps://doi.org/10.17863/cam.39986\nhttps://doi.org/10.17863/cam.39985\nhttps://doi.org/10.17863/cam.40022\nhttps://doi.org/10.17863/cam.37473\nhttps://doi.org/10.17863/cam.8651\nhttps://doi.org/10.17863/cam.39967\nhttps://doi.org/10.1038/s41467-018-07771-0\nhttps://doi.org/10.1101/338178\nhttps://doi.org/10.17863/cam.20316\nhttps://doi.org/10.1126/science.aay3224\nhttps://doi.org/10.17863/cam.40027\nhttps://doi.org/10.17863/cam.40038\nhttps://doi.org/10.17863/cam.47223\nhttps://doi.org/10.17863/cam.47246\nhttps://doi.org/10.17863/cam.44717\nhttps://doi.org/10.17863/cam.40039\nhttps://doi.org/10.17863/cam.40026\nhttps://doi.org/10.17863/cam.52009\nhttps://doi.org/10.1101/2020.01.28.911115\nhttps://doi.org/10.1038/s41467-019-11266-x\nhttps://doi.org/10.1126/sciimmunol.aal2192\nhttps://doi.org/10.1101/413047\nhttps://doi.org/10.1126/science.aat5031\nhttps://doi.org/10.1101/gr.207704.116\nhttps://doi.org/10.1038/s41590-020-0602-z\nhttps://doi.org/10.17863/cam.39984\nhttps://doi.org/10.17863/cam.46893\nhttps://doi.org/10.17863/cam.39987\nhttps://doi.org/10.17863/cam.40037\nhttps://doi.org/10.17863/cam.9696\nhttps://doi.org/10.17863/cam.26822\nhttps://doi.org/10.17863/cam.40029\nhttps://doi.org/10.17863/cam.9293\nhttps://doi.org/10.17863/cam.40030\nhttps://doi.org/10.17863/cam.33936\nhttps://doi.org/10.17863/cam.52896\nhttps://doi.org/10.1038/s41467-019-14171-5\nhttps://doi.org/10.1126/science.aat1699\nhttps://doi.org/10.1038/s41467-018-07307-6\nhttps://doi.org/10.1101/309831\nhttps://doi.org/10.1101/709998\nhttps://doi.org/10.17863/cam.6611\nhttps://doi.org/10.17863/cam.39972\nhttps://doi.org/10.17863/cam.39969\nhttps://doi.org/10.17863/cam.39964\nhttps://doi.org/10.17863/cam.50702\nhttps://doi.org/10.17863/cam.40034\nhttps://doi.org/10.17863/cam.40036\nhttps://doi.org/10.1038/s41591-019-0468-5\nhttps://doi.org/10.1038/s41592-019-0692-4\nhttps://doi.org/10.1038/s41556-019-0333-2\nhttps://doi.org/10.1242/dev.152561\nhttps://doi.org/10.1038/s41592-018-0254-1\nhttps://doi.org/10.26508/lsa.201800124\nhttps://doi.org/10.1101/397042\nhttps://doi.org/10.17863/cam.47221\nhttps://doi.org/10.17863/cam.39965\nhttps://doi.org/10.17863/cam.27576\nhttps://doi.org/10.17863/cam.47621\nhttps://doi.org/10.17863/cam.40025\nhttps://doi.org/10.17863/cam.40032\n';
 
 var filename = '0000-0002-6294-6366_dois.csv';
 var blob = new Blob([csv], { type: 'application/x-bibtex;charset=utf-8;' });
@@ -12228,7 +12228,7 @@ if (navigator.msSaveBlob) { // IE 10+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[233]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># This section contains an example of co-authorship network for Dr Sarah Teichmann&#39;s publications - hence the conditional logic below</span>
