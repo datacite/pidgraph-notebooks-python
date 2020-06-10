@@ -4,7 +4,7 @@
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/datacite/pidgraph-notebooks-python/master?filepath=user-story-3-impacts-of-organization%2Fpy-impacts-of-organization-with-output.ipynb)
 
 ### Examples of GraphQL Queries Used:
-* Retrieve the first 300 outputs of [University of Oxford](https://ror.org/052gg0110), with at least 50 views each.
+* Retrieve the first 100 outputs of [University of Oxford](https://ror.org/052gg0110), with at least 100 views each.
 
 ```
 {
@@ -15,7 +15,7 @@
     citationCount
     viewCount
     downloadCount
-    works(hasViews: 300, first: 50) {
+    works(hasViews: 100, first: 100) {
       totalCount
       published {
         title
@@ -33,6 +33,11 @@
         titles {
           title
         }
+        citations {
+            nodes {
+              id
+        	}
+        }        
         creators {
           id
           name
