@@ -1,0 +1,90 @@
+{
+@context: "https://raw.githubusercontent.com/codemeta/codemeta/master/codemeta.jsonld",
+@type: "SoftwareSourceCode",
+authors: [
+    {
+        @id: "https://orcid.org/0000-0001-6333-2182",
+        @type: "Person",
+        name: "Robert Petryszak",
+        affiliation: "",
+        mustBeCited: true,
+        isMaintainer: false,
+        isRightsHolder: false,
+        role: "Developer"
+    },    
+    {
+        @id: "http://orcid.org/0000-0003-1419-2405",
+        @type: "Person",
+        name: "Martin Fenner",
+        affiliation: "DataCite",
+        mustBeCited: true,
+        isMaintainer: true,
+        isRightsHolder: false,
+        role: "Contributor"
+    },
+    {
+        @id: "https://orcid.org/0000-0001-9570-8121",
+        @type: "Person",
+        name: "Simon Lambert",
+        affiliation: "Science and Technology Facilities Council",
+        mustBeCited: true,
+        isMaintainer: false,
+        isRightsHolder: false,
+        role: "Project manager"
+    },
+    {
+        @id: "https://orcid.org/0000-0002-7368-180X",
+        @type: "Person",
+        name: "Manuel Bernal Llinares",
+        affiliation: "EMBL-EBI",
+        mustBeCited: true,
+        isMaintainer: false,
+        isRightsHolder: false,
+        role: "Contributor"
+    },
+    {
+        @id: "https://orcid.org/0000-0002-5432-6116",
+        @type: "Person",
+        name: "Frances Madden",
+        affiliation: "British Library",
+        mustBeCited: true,
+        isMaintainer: false,
+        isRightsHolder: false,
+        role: "Contributor"
+    }
+],
+identifier: "",
+codeRepository: "https://github.com/datacite/pidgraph-notebooks-python/tree/master/user-story-9-researcher-coauthors",
+controlledTem: "software",
+datePublished: "2020-05-25",
+dateModified: "2020-06-10",
+dateCreated: "2020-05-25",
+description: "Jupyter notebook that uses GraphQL to implement EC-funded FREYA Project User Story 9: As a bibliometrician, I want to know all the co-authors of a particular researcher, so that I can do a network analysis of the researcher's collaborations.",
+isAutomatedBuild: true,
+issueTracker: "https://github.com/datacite/pidgraph-notebooks-python/issues",
+licenseId: "MIT",
+publisher: "DataCite",
+funding: {
+    @type: "Award",
+    identifier: "777523",
+    funder: {
+      @type: "Organization",
+      @id: "https://doi.org/10.13039/501100000780",
+      name: "European Commission"
+    }
+},
+tags: [
+    "pid graph",
+    "pid",        
+    "graphql",
+    "freya",
+    "jupyter"
+],
+name: "FREYA PID Graph - Researcher Co-authors",
+version: "1.1.1",
+programmingLanguage: {
+name: "Python",
+version: "> 3.6.0",
+URL: "https://www.python.org/"
+    }
+}
