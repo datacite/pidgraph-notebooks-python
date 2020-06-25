@@ -59,7 +59,7 @@
 "datePublished": "2020-05-25",
 "dateModified": "2020-06-10",
 "dateCreated": "2020-05-25",
-"description": "Jupyter notebook that uses GraphQL to implement EC-funded FREYA Project User Story "9": As a bibliometrician, I want to know all the co-authors of a particular researcher, so that I can do a network analysis of the researcher's collaborations.",
+"description": "Jupyter notebook that uses GraphQL to implement EC-funded FREYA Project User Story 9: As a bibliometrician, I want to know all the co-authors of a particular researcher, so that I can do a network analysis of the researcher's collaborations.",
 "isAutomatedBuild": true,
 "issueTracker": "https://github.com/datacite/pidgraph-notebooks-python/issues",
 "licenseId": "MIT",
