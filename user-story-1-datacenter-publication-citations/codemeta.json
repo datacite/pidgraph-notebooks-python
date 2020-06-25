@@ -59,7 +59,7 @@
 "datePublished": "2020-05-08",
 "dateModified": "2020-06-10",
 "dateCreated": "2020-05-08",
-"description": "Jupyter notebook that uses GraphQL to implement EC-funded FREYA Project User Story "1": As a data center, I want to see the citations of publications that use my repository for the underlying data, so that I can demonstrate the impact of our repository.",
+"description": "Jupyter notebook that uses GraphQL to implement EC-funded FREYA Project User Story 1: As a data center, I want to see the citations of publications that use my repository for the underlying data, so that I can demonstrate the impact of our repository.",
 "isAutomatedBuild": true,
 "issueTracker": "https://github.com/datacite/pidgraph-notebooks-python/issues",
 "licenseId": "MIT",
