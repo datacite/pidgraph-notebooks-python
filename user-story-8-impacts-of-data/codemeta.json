@@ -53,7 +53,7 @@
         "role": "Contributor"
     }
 ],
-"identifier": "",
+"identifier": "https://doi.org/10.14454/y785-xs19",
 "codeRepository": "https://github.com/datacite/pidgraph-notebooks-python/tree/master/user-story-8-impacts-of-data",
 "controlledTem": "software",
 "datePublished": "2020-05-24",

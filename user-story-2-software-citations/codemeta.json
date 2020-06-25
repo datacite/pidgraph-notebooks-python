@@ -53,7 +53,7 @@
         "role": "Contributor"
     }
 ],
-"identifier": "",
+"identifier": "https://doi.org/10.14454/27b7-9g84",
 "codeRepository": "https://github.com/datacite/pidgraph-notebooks-python/tree/master/user-story-2-software-citations",
 "controlledTem": "software",
 "datePublished": "2020-06-01",
