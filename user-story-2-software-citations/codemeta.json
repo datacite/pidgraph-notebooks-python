@@ -59,7 +59,7 @@
 "datePublished": "2020-06-01",
 "dateModified": "2020-06-10",
 "dateCreated": "2020-06-01",
-"description": "Jupyter notebook that uses GraphQL to implement EC-funded FREYA Project User Story "2": As a software author, I want to be able to see the citations of my software aggregated across all versions. so that I see a complete picture of reuse.",
+"description": "Jupyter notebook that uses GraphQL to implement EC-funded FREYA Project User Story 2: As a software author, I want to be able to see the citations of my software aggregated across all versions. so that I see a complete picture of reuse.",
 "isAutomatedBuild": true,
 "issueTracker": "https://github.com/datacite/pidgraph-notebooks-python/issues",
 "licenseId": "MIT",
