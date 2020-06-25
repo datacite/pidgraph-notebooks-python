@@ -59,7 +59,7 @@
 "datePublished": "2020-05-10",
 "dateModified": "2020-06-10",
 "dateCreated": "2020-05-10",
-"description": "Jupyter notebook that uses GraphQL to implement EC-funded FREYA Project User Story "10": As a funder, we want to be able to find all the outputs related to our awarded grants, including block grants such as doctoral training grants, for management info and looking at impact.",
+"description": "Jupyter notebook that uses GraphQL to implement EC-funded FREYA Project User Story 10: As a funder, we want to be able to find all the outputs related to our awarded grants, including block grants such as doctoral training grants, for management info and looking at impact.",
 "isAutomatedBuild": true,
 "issueTracker": "https://github.com/datacite/pidgraph-notebooks-python/issues",
 "licenseId": "MIT",
