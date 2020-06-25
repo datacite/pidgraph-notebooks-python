@@ -1,6 +1,7 @@
 ## [FREYA](https://www.project-freya.eu/en) WP2 [User Story 10](https://github.com/datacite/freya/issues/45): As a funder, we want to be able to find all the outputs related to our awarded grants, including block grants such as doctoral training grants, for management info and looking at impact. 
                    
 ### Jupyter Notebook:
+[![Identifier](https://img.shields.io/badge/doi-10.14454%2Fqaym--kt26-fca709.svg)](https://doi.org/10.14454/qaym-kt26)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/datacite/pidgraph-notebooks-python/master?filepath=user-story-10-grant-outputs%2Fpy-grant-outputs-with-output.ipynb)
 
 ### Examples of GraphQL Queries Used:
