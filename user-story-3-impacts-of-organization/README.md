@@ -1,6 +1,7 @@
 ## [FREYA](https://www.project-freya.eu/en) WP2 [User Story3](https://www.pidforum.org/t/pid-graph-graphql-example-research-organization/929): As an administrator for the University of Oxford I am interested in the reuse of research outputs from our university, so that I can help identify the most interesting research outputs.
                    
 ### Jupyter Notebook:
+[![Identifier](https://img.shields.io/badge/doi-10.14454%2Fe23v--x328-fca709.svg)](https://doi.org/10.14454/27b7-9g84)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/datacite/pidgraph-notebooks-python/master?filepath=user-story-3-impacts-of-organization%2Fpy-impacts-of-organization-with-output.ipynb)
 
 ### Examples of GraphQL Queries Used:
