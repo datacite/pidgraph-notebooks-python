@@ -53,13 +53,13 @@
         "role": "Contributor"
     }
 ],
-"identifier": "",
+"identifier": "10.14454/e23v-x328",
 "codeRepository": "https://github.com/datacite/pidgraph-notebooks-python/tree/master/user-story-3-impacts-of-organization",
 "controlledTem": "software",
 "datePublished": "2020-06-10",
 "dateModified": "2020-06-10",
 "dateCreated": "2020-06-10",
-"description": "Jupyter notebook that uses GraphQL to implement EC-funded FREYA Project User Story "3": As an administrator for the University of Oxford I am interested in the reuse of research outputs from our university, so that I can help identify the most interesting research outputs.",
+"description": "Jupyter notebook that uses GraphQL to implement EC-funded FREYA Project User Story 3: As an administrator for the University of Oxford I am interested in the reuse of research outputs from our university, so that I can help identify the most interesting research outputs.",
 "isAutomatedBuild": true,
 "issueTracker": "https://github.com/datacite/pidgraph-notebooks-python/issues",
 "licenseId": "MIT",
