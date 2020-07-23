@@ -53,7 +53,7 @@
         "role": "Contributor"
     }
 ],
-"identifier": "",
+"identifier": "10.14454/03vp-ry06",
 "codeRepository": "https://github.com/datacite/pidgraph-notebooks-python/tree/master/user-story-6-disambiguate-researchers",
 "controlledTem": "software",
 "datePublished": "2020-06-27",
@@ -80,7 +80,7 @@
     "freya",
     "jupyter"
 ],
-"name": "FREYA PID Graph - Researcher Co-authors",
+"name": "FREYA PID Graph - Disambiguate researchers",
 "version": "1.1.1",
 "programmingLanguage": {
 "name": "Python",
