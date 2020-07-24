@@ -5,19 +5,38 @@
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/datacite/pidgraph-notebooks-python/master?filepath=user-story-4-open-access%2Fpy-open-access-with-output.ipynb)
 
 ### Examples of GraphQL Queries Used:
-* Get outputs of [FREYA grant award](https://cordis.europa.eu/project/id/777523) from [European Commission](https://doi.org/10.13039/501100000780), including license types
-
+* Find all outputs and their associated licenses (where available) for three different funders, identified by query1, query2 and query3 respectively: [DFG (Deutsche Forschungsgemeinschaft, Germany)](https://doi.org/10.13039/501100001659), [ANR (Agence Nationale de la Recherche, France)](https://doi.org/10.13039/501100001665) and  [SNF (Schweizerischer Nationalfonds zur Förderung der Wissenschaftlichen Forschung, Switzerland)](https://doi.org/10.13039/501100001711)), up to 300 works per funder.
 ```
+query_params = {
+    "query1" : "https://doi.org/10.13039/501100001659",
+    "query2" : "https://doi.org/10.13039/501100001665",
+    "query3" : "https://doi.org/10.13039/501100001711",
+    "maxWorks" : 300
+}
+
+query getGrantOutputsForFundersById(
+    $query1: ID!,
+    $query2: ID!,
+    $query3: ID!,
+    $maxWorks: Int!
+    )
 {
-funder(id: "https://doi.org/10.13039/501100000780") {
+query1: funder(id: $query1) {
   name
-  works(query: "fundingReferences.awardNumber:777523", first: 200) {
+  id
+  works(first: $maxWorks) {
       totalCount
+      licenses {
+        id
+        title
+        count
+      }        
       nodes {
         id
+
         titles {
           title
-        }     
+        }      
         types {
           resourceType
         }
@@ -26,7 +45,7 @@ funder(id: "https://doi.org/10.13039/501100000780") {
           dateType
         }
         versionOfCount
-				rights {
+        rights {
           rights
           rightsIdentifier
           rightsUri
@@ -37,11 +56,83 @@ funder(id: "https://doi.org/10.13039/501100000780") {
           awardNumber
           awardTitle
         }
-        citationCount
-        viewCount
-        downloadCount
       }
     }
-  }
+  },
+query2: funder(id: $query2) {
+  name
+  id
+  works(first: $maxWorks) {
+      totalCount
+      licenses {
+        id
+        title
+        count
+      }       
+      nodes {
+        id
+
+        titles {
+          title
+        }      
+        types {
+          resourceType
+        }
+        dates {
+          date
+          dateType
+        }
+        versionOfCount
+        rights {
+          rights
+          rightsIdentifier
+          rightsUri
+        }
+        fundingReferences {
+          funderIdentifier
+          funderName
+          awardNumber
+          awardTitle
+        }
+      }
+    }
+  },  
+query3: funder(id: $query3) {
+  name
+  id
+  works(first: $maxWorks) {
+      totalCount
+      licenses {
+        id
+        title
+        count
+      }       
+      nodes {
+        id
+        titles {
+          title
+        }      
+        types {
+          resourceType
+        }
+        dates {
+          date
+          dateType
+        }
+        versionOfCount
+        rights {
+          rights
+          rightsIdentifier
+          rightsUri
+        }
+        fundingReferences {
+          funderIdentifier
+          funderName
+          awardNumber
+          awardTitle
+        }
+      }
+    }
+  }  
 }
 ```

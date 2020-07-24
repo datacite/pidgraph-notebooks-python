@@ -81,7 +81,10 @@
     "jupyter",
     "open access",
     "license",
-    "rights"
+    "rights",
+    "DFG (Deutsche Forschungsgemeinschaft, Germany)",
+    "ANR (Agence Nationale de la Recherche, France)",
+    "SNF (Schweizerischer Nationalfonds zur Förderung der Wissenschaftlichen Forschung, Switzerland)"
     ],
 "name": "FREYA PID Graph - License Types",
 "version": "1.1.1",
