@@ -7,132 +7,128 @@
 ### Examples of GraphQL Queries Used:
 * Find all outputs and their associated licenses (where available) for three different funders, identified by query1, query2 and query3 respectively: [DFG (Deutsche Forschungsgemeinschaft, Germany)](https://doi.org/10.13039/501100001659), [ANR (Agence Nationale de la Recherche, France)](https://doi.org/10.13039/501100001665) and  [SNF (Schweizerischer Nationalfonds zur Förderung der Wissenschaftlichen Forschung, Switzerland)](https://doi.org/10.13039/501100001711)), up to 300 works per funder.
 ```
+# Generate the GraphQL query: find all outputs and their associated licenses (where available) 
+# for three different funders, identified by funder1, funder2 and funder3.
 query_params = {
-    "query1" : "https://doi.org/10.13039/501100001659",
-    "query2" : "https://doi.org/10.13039/501100001665",
-    "query3" : "https://doi.org/10.13039/501100001711",
-    "maxWorks" : 300
+    "funder1" : "https://doi.org/10.13039/501100001659",
+    "funder2" : "https://doi.org/10.13039/501100001665",
+    "funder3" : "https://doi.org/10.13039/501100001711",
+    "maxWorks" : 200
 }
 
 query getGrantOutputsForFundersById(
-    $query1: ID!,
-    $query2: ID!,
-    $query3: ID!,
-    $maxWorks: Int!
+    $funder1: ID!,
+    $funder2: ID!,
+    $funder3: ID!
     )
 {
-query1: funder(id: $query1) {
+funder1: funder(id: $funder1) {
   name
   id
-  works(first: $maxWorks) {
+  works {
       totalCount
       licenses {
         id
         title
         count
       }        
-      nodes {
-        id
-
-        titles {
-          title
-        }      
-        types {
-          resourceType
-        }
-        dates {
-          date
-          dateType
-        }
-        versionOfCount
-        rights {
-          rights
-          rightsIdentifier
-          rightsUri
-        }
-        fundingReferences {
-          funderIdentifier
-          funderName
-          awardNumber
-          awardTitle
-        }
-      }
     }
   },
-query2: funder(id: $query2) {
+funder2: funder(id: $funder2) {
   name
   id
-  works(first: $maxWorks) {
+  works {
+      totalCount
+      licenses {
+        id
+        title
+        count
+      }        
+    }
+  },
+funder3: funder(id: $funder3) {
+  name
+  id
+  works {
+      totalCount
+      licenses {
+        id
+        title
+        count
+      }        
+    }
+  },
+funder1Dataset: funder(id: $funder1) {
+  name
+  id
+  works(resourceTypeId: "Dataset") {
+      totalCount
+      licenses {
+        id
+        title
+        count
+      }        
+    }
+  },
+funder1Text: funder(id: $funder1) {
+  name
+  id
+  works(resourceTypeId: "Text") {
+      totalCount
+      licenses {
+        id
+        title
+        count
+      }        
+    }
+  },
+funder2Dataset: funder(id: $funder2) {
+  name
+  id
+  works(resourceTypeId: "Dataset") {
       totalCount
       licenses {
         id
         title
         count
       }       
-      nodes {
-        id
-
-        titles {
-          title
-        }      
-        types {
-          resourceType
-        }
-        dates {
-          date
-          dateType
-        }
-        versionOfCount
-        rights {
-          rights
-          rightsIdentifier
-          rightsUri
-        }
-        fundingReferences {
-          funderIdentifier
-          funderName
-          awardNumber
-          awardTitle
-        }
-      }
     }
-  },  
-query3: funder(id: $query3) {
+  },
+funder2Text: funder(id: $funder2) {
   name
   id
-  works(first: $maxWorks) {
+  works(resourceTypeId: "Text") {
+      totalCount
+      licenses {
+        id
+        title
+        count
+      }        
+    }
+  },
+funder3Dataset: funder(id: $funder3) {
+  name
+  id
+  works(resourceTypeId: "Dataset") {
       totalCount
       licenses {
         id
         title
         count
       }       
-      nodes {
-        id
-        titles {
-          title
-        }      
-        types {
-          resourceType
-        }
-        dates {
-          date
-          dateType
-        }
-        versionOfCount
-        rights {
-          rights
-          rightsIdentifier
-          rightsUri
-        }
-        fundingReferences {
-          funderIdentifier
-          funderName
-          awardNumber
-          awardTitle
-        }
-      }
     }
-  }  
+  },
+funder3Text: funder(id: $funder3) {
+  name
+  id
+  works(resourceTypeId: "Text") {
+      totalCount
+      licenses {
+        id
+        title
+        count
+      }        
+    }
+  } 
 }
 ```
