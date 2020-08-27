@@ -1,51 +1,34 @@
 {
-"@context": "https://raw.githubusercontent.com/codemeta/codemeta/master/codemeta.jsonld",
-"@type": "SoftwareSourceCode",
-"authors": [
-    {
-        "@id": "https://orcid.org/0000-0003-3484-6875",
-        "@type": "Person",
-        "name": "Kristian Garza",
-        "affiliation": "",
-        "mustBeCited": true,
-        "isMaintainer": true,
-        "isRightsHolder": false,
-        "role": "Developer"
-    }
-],
-"identifier": "10.14454/e23v-x328",
-"codeRepository": "https://github.com/datacite/pidgraph-notebooks-python/tree/master/user-story-3-impacts-of-organization",
-"controlledTem": "software",
-"datePublished": "2020-06-10",
-"dateModified": "2020-06-10",
-"dateCreated": "2020-06-10",
-"description": "Jupyter notebook that uses GraphQL to implement EC-funded FREYA Project User Story 3: As an administrator for the University of Oxford I am interested in the reuse of research outputs from our university, so that I can help identify the most interesting research outputs.",
-"isAutomatedBuild": true,
-"issueTracker": "https://github.com/datacite/pidgraph-notebooks-python/issues",
-"licenseId": "MIT",
-"publisher": "DataCite",
-"funding": {
-    "@type": "Award",
-    "identifier": "777523",
-    "funder": {
-      "@type": "Organization",
-      "@id": "https://doi.org/10.13039/501100000780",
-      "name": "European Commission"
-    }
-},
-"tags": [
-    "pid graph",
-    "pid",        
-    "graphql",
-    "freya",
-    "jupyter",
-    "oxford university"
-],
-"name": "FREYA PID Graph - Impacts of Organisation",
-"version": "1.1.1",
-"programmingLanguage": {
-"name": "Python",
-"version": "> 3.6.0",
-"URL": "https://www.python.org/"
-    }
-}
+    "@context": "https://raw.githubusercontent.com/codemeta/codemeta/master/codemeta.jsonld",
+    "@type": "SoftwareSourceCode",
+    "@id": "https://doi.org/10.0330/459w-mb43",
+    "name": "maDMPs Demonstration",
+    "authors": [
+      {
+        "name": "Garza, Kristian",
+        "nameType": "Personal",
+        "givenName": "Kristian",
+        "familyName": "Garza",
+        "affiliation": [],
+        "nameIdentifiers": [
+          {
+            "schemeUri": "https://orcid.org",
+            "nameIdentifier": "https://orcid.org/0000-0003-3484-6875",
+            "nameIdentifierScheme": "ORCID"
+          }
+        ]
+      }
+    ],
+    "description": "Data management plans (DMPs) are documents accompanying research proposals and project outputs. DMPs are created as free-form text and describe the data and tools employed in scientific investigations. They are often seen as an administrative exercise and not as an integral part of research practice. Machine Actionable DMPs (maDMPs) takes this concept further by \n\nThis notebook displays in a human-friendly way the connections embedded in a maDMP. By the end of this notebook, you will be able to succinctly display the essential components of the maDMP vision using persistent identifiers (PIDs): Open Researcher and Contributor IDs (ORCIDs), funders IDs, organizations Org IDs, Dataset IDs (DOIs).",
+    "version": "1.0.0",
+    "tags": [
+      "pid graph",
+      "pid",
+      "graphql",
+      "maDMP",
+      "jupyter"
+    ],
+    "datePublished": 2020,
+    "publisher": "DataCite",
+    "license": "https://opensource.org/licenses/MIT"
+  }
