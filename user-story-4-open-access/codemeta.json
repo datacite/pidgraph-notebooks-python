@@ -53,11 +53,11 @@
         "role": "Contributor"
     }
 ],
-"identifier": "",
+"identifier": "https://doi.org/10.14454/q7jn-xw50",
 "codeRepository": "https://github.com/datacite/pidgraph-notebooks-python/tree/master/user-story-4-open-access",
 "controlledTem": "software",
-"datePublished": "2020-05-10",
-"dateModified": "2020-06-10",
+"datePublished": "2020-08-27",
+"dateModified": "2020-08-27",
 "dateCreated": "2020-05-10",
 "description": "Jupyter notebook that uses GraphQL to implement EC-funded FREYA Project User Story 4: As a funder I want to see how many of the research outputs funded by me have an open license enabling reuse, so that I am sure I properly support Open Science.",
 "isAutomatedBuild": true,

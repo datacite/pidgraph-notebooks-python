@@ -1,7 +1,7 @@
 ## [FREYA](https://www.project-freya.eu/en) WP2 [User Story 4](https://github.com/datacite/pidgraph-notebooks-python/issues/8): As a funder I want to see how many of the research outputs funded by me have an open license enabling reuse, so that I am sure I properly support Open Science.
                    
 ### Jupyter Notebook:
-[![Identifier](https://img.shields.io/badge/doi-10.14454%2Fqaym--kt26-fca709.svg)](https://doi.org/10.14454/qaym-kt26)
+[![Identifier](https://img.shields.io/badge/doi-10.14454%2Fq7jn-xw50-fca709.svg)](https://doi.org/10.14454/q7jn-xw50)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/datacite/pidgraph-notebooks-python/master?filepath=user-story-4-open-access%2Fpy-open-access-with-output.ipynb)
 
 ### Examples of GraphQL Queries Used:
