@@ -1,7 +1,7 @@
 {
     "@context": "https://raw.githubusercontent.com/codemeta/codemeta/master/codemeta.jsonld",
     "@type": "SoftwareSourceCode",
-    "@id": "https://doi.org/10.0330/459w-mb43",
+    "@id": "https://doi.org/10.14454/w67k-5373",
     "name": "maDMPs Demonstration",
     "authors": [
       {
