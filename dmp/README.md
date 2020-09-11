@@ -7,7 +7,7 @@
 [![Identifier](https://img.shields.io/badge/doi-10.14454%2Fw67k-5373-fca709.svg)](https://doi.org/10.14454/w67k-5373)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/datacite/pidgraph-notebooks-python/master?filepath=dmp%2Fuser-story-single-dmp-connections.ipynb)
 
-[Plain Notebook](https://nbviewer.jupyter.org/github/datacite/pidgraph-notebooks-python/blob/master/dmp/user-story-single-dmp-connections.ipynb)
+[Go to NBViewer](https://nbviewer.jupyter.org/github/datacite/pidgraph-notebooks-python/blob/master/dmp/user-story-single-dmp-connections.ipynb)
 
 
 #### Use case for all DMPs of an organisation, repository, or funder
@@ -15,5 +15,5 @@
 [![Identifier](https://img.shields.io/badge/doi-10.14454%2Fw67k-5373-fca709.svg)](https://doi.org/10.14454/w67k-5373)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/datacite/pidgraph-notebooks-python/blob/master/dmp/user-story-all-dmps.ipynb)
 
-[Plain Notebook](https://nbviewer.jupyter.org/github/datacite/pidgraph-notebooks-python/blob/master/dmp/user-story-all-dmps.ipynb)
+[Go to NBViewer](https://nbviewer.jupyter.org/github/datacite/pidgraph-notebooks-python/blob/master/dmp/user-story-all-dmps.ipynb)
 
