@@ -1,0 +1,35 @@
+{
+    "@context": "https://raw.githubusercontent.com/codemeta/codemeta/master/codemeta.jsonld",
+    "@type": "SoftwareSourceCode",
+    "@id": "https://doi.org/10.14454/w67k-5373",
+    "name": "Datasets usage and citations metadata analysis",
+    "authors": [
+      {
+        "name": "Garza, Kristian",
+        "nameType": "Personal",
+        "givenName": "Kristian",
+        "familyName": "Garza",
+        "affiliation": [],
+        "nameIdentifiers": [
+          {
+            "schemeUri": "https://orcid.org",
+            "nameIdentifier": "https://orcid.org/0000-0003-3484-6875",
+            "nameIdentifierScheme": "ORCID"
+          }
+        ]
+      }
+    ],
+    "description": "Bibliometricians need to have an overall picture of the DataCite data corpus in order to do the analysis. In order to provide this, we will create a notebook with descriptive statistics about the Datacite data corpus broken up by the different dimensions of interest (viz. Discipline, career status, usage, and citations). This document aims to make the first step into creating that notebook by looking directly at the DOI index and exploring the descriptive statistics that will be used.",
+    "version": "1.0.0",
+    "tags": [
+      "pid graph",
+      "pid",
+      "graphql",
+      "bibliometrics",
+      "Make data Count",
+      "jupyter"
+    ],
+    "datePublished": 2020,
+    "publisher": "DataCite",
+    "license": "https://opensource.org/licenses/MIT"
+  }
