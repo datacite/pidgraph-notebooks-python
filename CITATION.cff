@@ -1,0 +1,8 @@
+
+cff-version: 1.1.0
+message: "If you use this software, please cite it as below."
+authors:
+doi: 10.14454/fqq6-w751
+version: 1.1.1
+title: FREYA PID Graph Jupyter Notebooks
+date-released: 2020-05-08
