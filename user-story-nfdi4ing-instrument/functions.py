@@ -5,6 +5,7 @@ import json
 import datetime
 import altair as alt
 # import vega
+from IPython.core.display import display, HTML
 alt.renderers.enable('default')
 import regex
 
@@ -53,7 +54,7 @@ def get_metadata_display(doi):
 
     return data
 
-def format_citations(events, include_authors=False):
+def format_citations(events, doi, include_authors=False):
 
     ids = extract_ids(events)
 
@@ -61,19 +62,30 @@ def format_citations(events, include_authors=False):
         "instrumentIds" : ids
     }
 
-    query = gql("""query getInstruments($instrumentIds: [String!])
-    {
-    works(ids: $instrumentIds) {
-        # authors{
-        #     title
-        #     id
-        # }
-        nodes{
-            formattedCitation
+    if include_authors:
+        query = gql("""query getInstruments($instrumentIds: [String!])
+        {
+        works(ids: $instrumentIds) {
+            authors{
+                title
+                id
+            }
+            nodes{
+                formattedCitation
+            }
         }
-    }
-    } 
-    """)
+        } 
+        """)
+    else:
+        query = gql("""query getInstruments($instrumentIds: [String!])
+        {
+        works(ids: $instrumentIds) {
+            nodes{
+                formattedCitation
+            }
+        }
+        } 
+        """)
 
     ## ToDo: condition the use of authors
 
@@ -107,20 +119,20 @@ def view_metadata_display(data):
 
     html = '<div>' + html_formatted_citation + html_citation_count + html_repository_link + '</div>'
 
-    return html
+    display(HTML(html))
 
-def get_html_table(formatted_citations_array):
-    html_table = '<table>'
+def view_html_table(formatted_citations_array):
+    html_table = '<hr><table>'
+    # print(formatted_citations_array)
     for item in formatted_citations_array['works']['nodes']:
         html_table += '<tr><td>' + item['formattedCitation'] + '</td></tr>'
 
     html_table += '</table>'
+    display(HTML(html_table))
 
     # ToDo: add table header
 
-    return html_table
-
-def get_authors_html_table(authors):
+def view_authors_html_table(authors):
     html_table = '<table>'
     for item in authors['works']['authors']:
         html_table += '<tr><td>' + item['title'] + '</td></tr>'
@@ -128,8 +140,7 @@ def get_authors_html_table(authors):
     html_table += '</table>'
 
     # ToDo: add table header
-
-    return html_table
+    display(HTML(html_table))
 
 def generate_histogram_spec(data):
     """Return a vega-lite specification for a bar chart with the citation counts."""
@@ -222,12 +233,35 @@ def generate_histogram_spec(data):
 
 
 def render_histogram(spec):
-    return(alt.Chart.from_dict(spec))
+    alt.Chart.from_dict(spec)
 
 
 def main(doi):
-    pass
+    # Instrument Metadata Display
+    metadata = get_metadata_display(doi)
+    view_metadata_display(metadata)
 
+    # Instrument connections list and histogram
+    data = get_events_by_doi_and_relation_type(doi, 'cites')
+    spec = generate_histogram_spec(data['meta']['occurred'])
+    # render_histogram(spec)
+
+    # Data that used an instrument
+    events = get_events_by_doi_and_relation_type(doi, 'cites') # Not sure what relation_type should be
+    formatted_citations = format_citations(events, doi)
+    view_html_table(formatted_citations)
+
+    # Publications that used an Instrument
+    events = get_events_by_doi_and_relation_type(doi, 'cites') # Not sure what relation_type should be
+    formatted_citations = format_citations(events, doi, include_authors=True)
+    view_html_table(formatted_citations)
+
+    # Co-authors List
+    view_authors_html_table(formatted_citations)
+
+    # get_authors_html_table(formatted_citations['authors'])
+
+# main('10.5255/ukda-sn-3592-1')
 
 
 # print(get_events_by_doi_and_relation_type('10.5255/ukda-sn-3592-1', 'cites'))
@@ -236,10 +270,10 @@ def main(doi):
 
 
 
-x = get_events_by_doi_and_relation_type('10.5255/ukda-sn-3592-1', 'cites')
+# x = get_events_by_doi_and_relation_type('10.5255/ukda-sn-3592-1', 'cites')
 # print(get_metadata_display('10.5255/ukda-sn-3592-1'))
 
-print(format_citations(x))
+# print(format_citations(x))
 
 # print(get_html_table(format_citations(['10.5255/ukda-sn-3592-1','https://doi.org/10.5255/ukda-sn-1930-1'])))
 
