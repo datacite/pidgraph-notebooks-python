@@ -4,8 +4,9 @@ from gql.transport.requests import RequestsHTTPTransport
 import json
 import datetime
 import altair as alt
-import vega
+# import vega
 alt.renderers.enable('default')
+import regex
 
 
 _transport = RequestsHTTPTransport(
@@ -39,7 +40,7 @@ def get_metadata_display(doi):
           formattedCitation
           repository {
             uid
-						name
+            name
           }
         }
       }
@@ -54,7 +55,7 @@ def get_metadata_display(doi):
 
 def format_citations(events, include_authors=False):
 
-    ids = extract_dois(events)
+    ids = extract_ids(events)
 
     query_params = {
         "instrumentIds" : ids
@@ -80,17 +81,24 @@ def format_citations(events, include_authors=False):
 
     return formatted_citations
 
-def extract_ids(events, doi):
+def get_doi_name_from_doi_url(doi_url):
+    m = regex.search(r'(?<=https://doi.org/)\b\S+', doi_url)
+    if m:
+        # Return the DOI suffix if it is found
+        return m.group()
+    else:
+        # Return None if the DOI suffix is not found
+        return None
+
+def extract_ids(events):
     """Return the property sub_id of array of events."""
     ids = []
 
-    for event in events:
-        if event['obj']['doi'] != doi:
-            ids.append(event['sub_id'])
-        if event['subj']['doi'] != doi:
-            ids.append(event['sub_id'])
+    for event in events['data']:
+        ids.append(get_doi_name_from_doi_url(event['attributes']['subj-id']))
+        ids.append(get_doi_name_from_doi_url(event['attributes']['obj-id']))
 
-    return ids
+    return [x for x in ids if x is not None]
 
 def view_metadata_display(data):
     html_formatted_citation = f"<p>{data['work']['formattedCitation']}</p>"
@@ -217,7 +225,9 @@ def render_histogram(spec):
     return(alt.Chart.from_dict(spec))
 
 
-def main(doi)
+def main(doi):
+    pass
+
 
 
 # print(get_events_by_doi_and_relation_type('10.5255/ukda-sn-3592-1', 'cites'))
@@ -226,10 +236,10 @@ def main(doi)
 
 
 
-# print(get_events_by_doi_and_relation_type('10.5255/ukda-sn-3592-1', 'cites'))
+x = get_events_by_doi_and_relation_type('10.5255/ukda-sn-3592-1', 'cites')
 # print(get_metadata_display('10.5255/ukda-sn-3592-1'))
 
-# print(format_citations(['10.5255/ukda-sn-3592-1','https://doi.org/10.5255/ukda-sn-1930-1']))
+print(format_citations(x))
 
 # print(get_html_table(format_citations(['10.5255/ukda-sn-3592-1','https://doi.org/10.5255/ukda-sn-1930-1'])))
 
