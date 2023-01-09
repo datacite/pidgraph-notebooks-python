@@ -23,7 +23,7 @@ client = Client(
 
 
 def get_events_by_doi_and_relation_type(doi, relation_type):
-    params = {'doi':  doi , 'relation-type': relation_type, 'rows': 1000}
+    params = {'doi':  doi , 'relation_type_id': relation_type, 'rows': 1000}
     try:
         events = requests.get('https://api.datacite.org/events', params=params)
         events.raise_for_status()
@@ -246,15 +246,6 @@ def generate_html(metadata, datasets_table_html, publications_table_html, relate
     return html
 
 
-def generate_metadata_html(data):
-    html_formatted_citation = f"<p>{data['work']['formattedCitation']}</p>"
-    html_citation_count = f"<p>Citation count: {data['work']['citationCount']}</p>"
-    html_repository_link = f'<a href="https://commons.datacite.org/repositories/{data["work"]["repository"]["uid"]}">{data["work"]["repository"]["name"]}</a>'
-
-    html = html_formatted_citation + html_citation_count + html_repository_link
-    return html
-
-
 def generate_html_table(title, data):
     rows = ''
     for item in data:
@@ -277,10 +268,8 @@ def main(doi):
     if metadata is None:
         return("Unable to get metadata for %s" % (doi))   
 
-    metadata_html = generate_metadata_html(metadata)
-
     # Instrument connections list and histogram
-    related_works_events = get_events_by_doi_and_relation_type(doi, 'cites')
+    related_works_events = get_events_by_doi_and_relation_type(doi, '')
     spec = generate_histogram_spec(related_works_events['meta']['occurred'])
 
     # Data that used an instrument
@@ -296,6 +285,7 @@ def main(doi):
     publications_html = generate_html_table('Publications', publications_data)
 
     # Related works
+    related_works_events = get_events_by_doi_and_relation_type(doi, '')
     formatted_citations = format_citations(related_works_events, include_authors=True)
     related_works_data = map(lambda item: item['formattedCitation'], formatted_citations['works']['nodes'])
     related_works_html = generate_html_table('Related Works', related_works_data)
@@ -305,7 +295,14 @@ def main(doi):
     authors_html = generate_html_table('Authors', authors_data)
 
 
+    # Generate and save full HTML
     html = generate_html(metadata, datasets_html, publications_html, related_works_html, authors_html)
     display(HTML(html))
 
-    return(render_histogram(spec))
+    # with open('./nfdi.html', 'w') as file:
+    #     file.write(html)
+
+
+    # Histogram
+    spec = generate_histogram_spec(related_works_events['meta']['occurred'])
+    return render_histogram(spec)
