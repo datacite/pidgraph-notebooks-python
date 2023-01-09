@@ -23,8 +23,22 @@ client = Client(
 
 
 def get_events_by_doi_and_relation_type(doi, relation_type):
-    events = requests.get('https://api.datacite.org/events',  
-    params={'doi':  doi , 'relation-type': relation_type, 'rows': 1000})
+    params = {'doi':  doi , 'relation-type': relation_type, 'rows': 1000}
+    try:
+        events = requests.get('https://api.datacite.org/events', params=params)
+        events.raise_for_status()
+    except requests.exceptions.HTTPError as errh:
+        print ("Http Error:",errh)
+        return None
+    except requests.exceptions.ConnectionError as errc:
+        print ("Error Connecting:",errc)
+        return None
+    except requests.exceptions.Timeout as errt:
+        print ("Timeout Error:",errt)
+        return None
+    except requests.exceptions.RequestException as err:
+        print ("OOps: Something Else",err)
+        return None
     
     return events.json()
 
@@ -48,10 +62,11 @@ def get_metadata_display(doi):
       }
     """)
 
-    ## ToDo: check the uid of the repo in akita
-
-
-    data = client.execute(query, variable_values=json.dumps(query_params))
+    try:
+        data = client.execute(query, variable_values=json.dumps(query_params))
+    except Exception as e:
+        print("Unable to get metadata for %s: %s" % (doi, e))
+        return None
 
     return data
 
@@ -80,7 +95,12 @@ def format_citations(events, include_authors=False):
         }
     """)
 
-    formatted_citations = client.execute(query, variable_values=json.dumps(query_params))
+    try:
+        formatted_citations = client.execute(query, variable_values=json.dumps(query_params))
+    except Exception as e:
+        print("Unable to get metadata for %s: %s" % ("events", e))
+        return None
+
     return formatted_citations
 
 
@@ -253,6 +273,10 @@ def main(doi):
 
     # Instrument metadata display
     metadata = get_metadata_display(doi)
+    
+    if metadata is None:
+        return("Unable to get metadata for %s" % (doi))   
+
     metadata_html = generate_metadata_html(metadata)
 
     # Instrument connections list and histogram
