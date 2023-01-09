@@ -1,0 +1,62 @@
+* {
+	font-size: 16px;
+	font-family: Helvetica, "sans-serif";
+}
+
+.metadata {
+	margin-bottom: 50px;
+	padding: 10px;
+}
+
+.citation-count {
+	width: max-content;
+	margin-top: 15px;
+	padding: .5em;
+
+	color: white;
+	background-color: blue;
+	border-radius: 8px;
+}
+
+.citation-count div {
+	display: inline-block;
+	margin-left: 3px;
+	padding: 6px;
+	
+	color: black;
+	background-color: white;
+	border-radius: 4px;
+}
+
+.lists {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+
+table {
+	margin: 5px;
+	border-collapse: collapse;
+}
+
+tr {
+	border-bottom: 1px solid lightgray;
+}
+
+th {
+	display: flex;
+	padding: 10px;
+
+	color: black;
+	background-color: lightgray;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+}
+
+td {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 10px;
+}
