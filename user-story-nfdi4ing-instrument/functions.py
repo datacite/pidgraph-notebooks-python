@@ -113,7 +113,7 @@ def generate_histogram_spec(data):
     
     chartWidth = 500
     thisYear = datetime.datetime.now().year + 1
-    lowerBoundYear = ((thisYear - 10) / 5) * 5
+    lowerBoundYear = int(((thisYear - 10) / 5) * 5)
 
     spec = {
     "$schema": 'https://vega.github.io/schema/vega-lite/v4.json',
@@ -158,7 +158,7 @@ def generate_histogram_spec(data):
         "type": 'quantitative',
         "axis": {
             "format": '1',
-            "labelExpr": 'datum.title % 5 === 0 ? datum.title : ""'
+            "labelExpr": 'datum.label % 5 === 0 ? datum.label : ""'
         },
         "scale": {
             "domain": [lowerBoundYear, thisYear]
@@ -198,10 +198,7 @@ def generate_histogram_spec(data):
 
 
 def render_histogram(spec):
-    alt.Chart.from_dict(spec)
-
-
-
+    return(alt.Chart.from_dict(spec))
 
 
 
@@ -261,7 +258,6 @@ def main(doi):
     # Instrument connections list and histogram
     related_works_events = get_events_by_doi_and_relation_type(doi, 'cites')
     spec = generate_histogram_spec(related_works_events['meta']['occurred'])
-    # render_histogram(spec)
 
     # Data that used an instrument
     datasets_events = get_events_by_doi_and_relation_type(doi, 'is-compiled-by')
@@ -288,5 +284,4 @@ def main(doi):
     html = generate_html(metadata, datasets_html, publications_html, related_works_html, authors_html)
     display(HTML(html))
 
-    with open('./nfdi.html', 'w') as file:
-        file.write(html)
+    return(render_histogram(spec))
