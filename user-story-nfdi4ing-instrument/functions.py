@@ -28,6 +28,7 @@ def get_events_by_doi_and_relation_type(doi, relation_type):
     
     return events.json()
 
+
 def get_metadata_display(doi):
     query_params = {
         "instrumentId" : doi
@@ -54,7 +55,8 @@ def get_metadata_display(doi):
 
     return data
 
-def format_citations(events, doi, include_authors=False):
+
+def format_citations(events, include_authors=False):
 
     ids = extract_ids(events)
 
@@ -62,45 +64,26 @@ def format_citations(events, doi, include_authors=False):
         "instrumentIds" : ids
     }
 
-    if include_authors:
-        query = gql("""query getInstruments($instrumentIds: [String!])
-        {
-        works(ids: $instrumentIds) {
-            authors{
-                title
-                id
-            }
-            nodes{
-                formattedCitation
-            }
-        }
-        } 
-        """)
-    else:
-        query = gql("""query getInstruments($instrumentIds: [String!])
-        {
-        works(ids: $instrumentIds) {
-            nodes{
-                formattedCitation
-            }
-        }
-        } 
-        """)
+    author_query ="""authors {
+        title
+        id
+    }""" if include_authors else ''
 
-    ## ToDo: condition the use of authors
+    query = gql("""query getInstruments($instrumentIds: [String!])
+        {
+            works(ids: $instrumentIds) {
+                """ + author_query + """
+                nodes {
+                    formattedCitation
+                }
+            }
+        }
+    """)
 
     formatted_citations = client.execute(query, variable_values=json.dumps(query_params))
-
     return formatted_citations
 
-def get_doi_name_from_doi_url(doi_url):
-    m = regex.search(r'(?<=https://doi.org/)\b\S+', doi_url)
-    if m:
-        # Return the DOI suffix if it is found
-        return m.group()
-    else:
-        # Return None if the DOI suffix is not found
-        return None
+
 
 def extract_ids(events):
     """Return the property sub_id of array of events."""
@@ -112,35 +95,17 @@ def extract_ids(events):
 
     return [x for x in ids if x is not None]
 
-def view_metadata_display(data):
-    html_formatted_citation = f"<p>{data['work']['formattedCitation']}</p>"
-    html_citation_count = f"<p>Citation count: {data['work']['citationCount']}</p>"
-    html_repository_link = f'<a href="https://commons.datacite.org/repositories/{data["work"]["repository"]["uid"]}">{data["work"]["repository"]["name"]}</a>'
 
-    html = '<div>' + html_formatted_citation + html_citation_count + html_repository_link + '</div>'
+def get_doi_name_from_doi_url(doi_url):
+    m = regex.search(r'(?<=https://doi.org/)\b\S+', doi_url)
+    if m:
+        # Return the DOI suffix if it is found
+        return m.group()
+    else:
+        # Return None if the DOI suffix is not found
+        return None
 
-    display(HTML(html))
 
-def view_html_table(formatted_citations_array):
-    html_table = '<hr><table>'
-    # print(formatted_citations_array)
-    for item in formatted_citations_array['works']['nodes']:
-        html_table += '<tr><td>' + item['formattedCitation'] + '</td></tr>'
-
-    html_table += '</table>'
-    display(HTML(html_table))
-
-    # ToDo: add table header
-
-def view_authors_html_table(authors):
-    html_table = '<table>'
-    for item in authors['works']['authors']:
-        html_table += '<tr><td>' + item['title'] + '</td></tr>'
-
-    html_table += '</table>'
-
-    # ToDo: add table header
-    display(HTML(html_table))
 
 def generate_histogram_spec(data):
     """Return a vega-lite specification for a bar chart with the citation counts."""
@@ -236,48 +201,92 @@ def render_histogram(spec):
     alt.Chart.from_dict(spec)
 
 
+
+
+
+
+def generate_html(metadata, datasets_table_html, publications_table_html, related_works_table_html, authors_table_html):
+    HTML_TEMPLATE_FILE = './nfdi-template.html'
+    STYLES_FILE = './nfdi-styles.css'
+    html = ''
+    styles = ''
+
+    with open(HTML_TEMPLATE_FILE, 'r') as html_template, open(STYLES_FILE) as styles_file:
+        html = html_template.read()
+        styles = styles_file.read()
+    
+    html = html.format(
+        style=styles,
+        formatted_citation=metadata['work']['formattedCitation'],
+        citation_count=metadata['work']['citationCount'],
+        repository_link=metadata["work"]["repository"]["uid"],
+        repository_name=metadata["work"]["repository"]["name"],
+        datasets=datasets_table_html,
+        publications=publications_table_html,
+        related_works=related_works_table_html,
+        authors=authors_table_html
+    )
+    return html
+
+
+def generate_metadata_html(data):
+    html_formatted_citation = f"<p>{data['work']['formattedCitation']}</p>"
+    html_citation_count = f"<p>Citation count: {data['work']['citationCount']}</p>"
+    html_repository_link = f'<a href="https://commons.datacite.org/repositories/{data["work"]["repository"]["uid"]}">{data["work"]["repository"]["name"]}</a>'
+
+    html = html_formatted_citation + html_citation_count + html_repository_link
+    return html
+
+
+def generate_html_table(title, data):
+    rows = ''
+    for item in data:
+        rows += '<tr><td>' + item + '</td></tr>'
+    
+    html = f"""<table>
+        <tr><th><h3>{title}</h3></tr></th>
+        {rows}
+    </table>"""
+
+    return html
+
+
+
 def main(doi):
-    # Instrument Metadata Display
+
+    # Instrument metadata display
     metadata = get_metadata_display(doi)
-    view_metadata_display(metadata)
+    metadata_html = generate_metadata_html(metadata)
 
     # Instrument connections list and histogram
-    data = get_events_by_doi_and_relation_type(doi, 'cites')
-    spec = generate_histogram_spec(data['meta']['occurred'])
+    related_works_events = get_events_by_doi_and_relation_type(doi, 'cites')
+    spec = generate_histogram_spec(related_works_events['meta']['occurred'])
     # render_histogram(spec)
 
     # Data that used an instrument
-    events = get_events_by_doi_and_relation_type(doi, 'cites') # Not sure what relation_type should be
-    formatted_citations = format_citations(events, doi)
-    view_html_table(formatted_citations)
+    datasets_events = get_events_by_doi_and_relation_type(doi, 'is-compiled-by')
+    formatted_citations = format_citations(datasets_events)
+    datasets_data = map(lambda item: item['formattedCitation'], formatted_citations['works']['nodes'])
+    datasets_html = generate_html_table('Datasets', datasets_data)
 
-    # Publications that used an Instrument
-    events = get_events_by_doi_and_relation_type(doi, 'cites') # Not sure what relation_type should be
-    formatted_citations = format_citations(events, doi, include_authors=True)
-    view_html_table(formatted_citations)
+    # Publications that used an instrument
+    publications_events = get_events_by_doi_and_relation_type(doi, 'is-referenced-by')
+    formatted_citations = format_citations(publications_events)
+    publications_data = map(lambda item: item['formattedCitation'], formatted_citations['works']['nodes'])
+    publications_html = generate_html_table('Publications', publications_data)
+
+    # Related works
+    formatted_citations = format_citations(related_works_events, include_authors=True)
+    related_works_data = map(lambda item: item['formattedCitation'], formatted_citations['works']['nodes'])
+    related_works_html = generate_html_table('Related Works', related_works_data)
 
     # Co-authors List
-    view_authors_html_table(formatted_citations)
-
-    # get_authors_html_table(formatted_citations['authors'])
-
-# main('10.5255/ukda-sn-3592-1')
+    authors_data = map(lambda item: item['title'], formatted_citations['works']['authors'])
+    authors_html = generate_html_table('Authors', authors_data)
 
 
-# print(get_events_by_doi_and_relation_type('10.5255/ukda-sn-3592-1', 'cites'))
+    html = generate_html(metadata, datasets_html, publications_html, related_works_html, authors_html)
+    display(HTML(html))
 
-# render_histogram(generate_histogram_spec((get_events_by_doi_and_relation_type('10.5255/ukda-sn-3592-1', 'cites')['meta']['occurred'])))
-
-
-
-# x = get_events_by_doi_and_relation_type('10.5255/ukda-sn-3592-1', 'cites')
-# print(get_metadata_display('10.5255/ukda-sn-3592-1'))
-
-# print(format_citations(x))
-
-# print(get_html_table(format_citations(['10.5255/ukda-sn-3592-1','https://doi.org/10.5255/ukda-sn-1930-1'])))
-
-
-# print(view_metadata_display(get_metadata_display('10.5255/ukda-sn-3592-1')))
-
-# print(get_metadata_display('10.5255/ukda-sn-3592-1'))
+    with open('./nfdi.html', 'w') as file:
+        file.write(html)
