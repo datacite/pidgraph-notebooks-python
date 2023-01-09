@@ -113,7 +113,7 @@ def generate_histogram_spec(data):
     
     chartWidth = 500
     thisYear = datetime.datetime.now().year + 1
-    lowerBoundYear = ((thisYear - 10) / 5) * 5
+    lowerBoundYear = int(((thisYear - 10) / 5) * 5)
 
     spec = {
     "$schema": 'https://vega.github.io/schema/vega-lite/v4.json',
@@ -158,7 +158,7 @@ def generate_histogram_spec(data):
         "type": 'quantitative',
         "axis": {
             "format": '1',
-            "labelExpr": 'datum.title % 5 === 0 ? datum.title : ""'
+            "labelExpr": 'datum.label % 2 === 0 ? datum.label : ""'
         },
         "scale": {
             "domain": [lowerBoundYear, thisYear]
@@ -198,11 +198,7 @@ def generate_histogram_spec(data):
 
 
 def render_histogram(spec):
-    alt.Chart.from_dict(spec)
-
-
-
-
+    return(alt.Chart.from_dict(spec))
 
 
 def generate_html(metadata, datasets_table_html, publications_table_html, related_works_table_html, authors_table_html):
@@ -232,7 +228,7 @@ def generate_html(metadata, datasets_table_html, publications_table_html, relate
 def generate_metadata_html(data):
     html_formatted_citation = f"<p>{data['work']['formattedCitation']}</p>"
     html_citation_count = f"<p>Citation count: {data['work']['citationCount']}</p>"
-    html_repository_link = f'<a href="https://commons.datacite.org/repositories/{data["work"]["repository"]["uid"]}">{data["work"]["repository"]["name"]}</a>'
+    html_repository_link = f'Published by: <a href="https://commons.datacite.org/repositories/{data["work"]["repository"]["uid"]}">{data["work"]["repository"]["name"]}</a>'
 
     html = html_formatted_citation + html_citation_count + html_repository_link
     return html
@@ -290,3 +286,5 @@ def main(doi):
 
     with open('./nfdi.html', 'w') as file:
         file.write(html)
+
+    return render_histogram(spec)
