@@ -24,7 +24,7 @@ client = Client(
 
 def get_events_by_doi_and_relation_type(doi, relation_type):
     events = requests.get('https://api.datacite.org/events',  
-    params={'doi':  doi , 'relation-type': relation_type, 'rows': 1000})
+    params={'doi':  doi , 'relation_type_id': relation_type, 'rows': 1000})
     
     return events.json()
 
@@ -252,12 +252,6 @@ def main(doi):
 
     # Instrument metadata display
     metadata = get_metadata_display(doi)
-    metadata_html = generate_metadata_html(metadata)
-
-    # Instrument connections list and histogram
-    related_works_events = get_events_by_doi_and_relation_type(doi, 'cites')
-    spec = generate_histogram_spec(related_works_events['meta']['occurred'])
-    # render_histogram(spec)
 
     # Data that used an instrument
     datasets_events = get_events_by_doi_and_relation_type(doi, 'is-compiled-by')
@@ -272,6 +266,7 @@ def main(doi):
     publications_html = generate_html_table('Publications', publications_data)
 
     # Related works
+    related_works_events = get_events_by_doi_and_relation_type(doi, '')
     formatted_citations = format_citations(related_works_events, include_authors=True)
     related_works_data = map(lambda item: item['formattedCitation'], formatted_citations['works']['nodes'])
     related_works_html = generate_html_table('Related Works', related_works_data)
@@ -281,10 +276,14 @@ def main(doi):
     authors_html = generate_html_table('Authors', authors_data)
 
 
+    # Generate and save full HTML
     html = generate_html(metadata, datasets_html, publications_html, related_works_html, authors_html)
     display(HTML(html))
 
     with open('./nfdi.html', 'w') as file:
         file.write(html)
 
+
+    # Histogram
+    spec = generate_histogram_spec(related_works_events['meta']['occurred'])
     return render_histogram(spec)
