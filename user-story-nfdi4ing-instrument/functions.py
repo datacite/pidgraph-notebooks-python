@@ -178,7 +178,7 @@ def generate_histogram_spec(data):
         "type": 'quantitative',
         "axis": {
             "format": '1',
-            "labelExpr": 'datum.label % 5 === 0 ? datum.label : ""'
+            "labelExpr": 'datum.label % 2 === 0 ? datum.label : ""'
         },
         "scale": {
             "domain": [lowerBoundYear, thisYear]
@@ -273,7 +273,7 @@ def main(doi):
 
     # Instrument metadata display
     metadata = get_metadata_display(doi)
-    
+
     if metadata is None:
         return("Unable to get metadata for %s" % (doi))   
 
