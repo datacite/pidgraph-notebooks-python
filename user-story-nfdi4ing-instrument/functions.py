@@ -6,7 +6,7 @@ import datetime
 import altair as alt
 # import vega
 from IPython.core.display import display, HTML
-alt.renderers.enable('default')
+alt.renderers.enable('mimetype')
 import regex
 
 
@@ -268,10 +268,6 @@ def main(doi):
     if metadata is None:
         return("Unable to get metadata for %s" % (doi))   
 
-    # Instrument connections list and histogram
-    related_works_events = get_events_by_doi_and_relation_type(doi, '')
-    spec = generate_histogram_spec(related_works_events['meta']['occurred'])
-
     # Data that used an instrument
     datasets_events = get_events_by_doi_and_relation_type(doi, 'is-compiled-by')
     formatted_citations = format_citations(datasets_events)
@@ -285,6 +281,7 @@ def main(doi):
     publications_html = generate_html_table('Publications', publications_data)
 
     # Related works
+    # Instrument connections list and histogram
     related_works_events = get_events_by_doi_and_relation_type(doi, '')
     formatted_citations = format_citations(related_works_events, include_authors=True)
     related_works_data = map(lambda item: item['formattedCitation'], formatted_citations['works']['nodes'])
@@ -293,15 +290,14 @@ def main(doi):
     # Co-authors List
     authors_data = map(lambda item: item['title'], formatted_citations['works']['authors'])
     authors_html = generate_html_table('Authors', authors_data)
+   
 
-
-    # Generate and save full HTML
+    # # Generate and save full HTML
     html = generate_html(metadata, datasets_html, publications_html, related_works_html, authors_html)
     display(HTML(html))
 
     # with open('./nfdi.html', 'w') as file:
     #     file.write(html)
-
 
     # Histogram
     spec = generate_histogram_spec(related_works_events['meta']['occurred'])
