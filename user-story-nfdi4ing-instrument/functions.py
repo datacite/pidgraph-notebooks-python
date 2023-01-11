@@ -23,7 +23,7 @@ client = Client(
 
 
 def get_events_by_doi_and_relation_type(doi, relation_type):
-    params = {'doi':  doi , 'relation_type_id': relation_type, 'rows': 1000}
+    params = {'doi':  doi , 'relation_type_id': relation_type, 'page[size]': 100}
     try:
         events = requests.get('https://api.datacite.org/events', params=params)
         events.raise_for_status()
@@ -74,6 +74,7 @@ def get_metadata_display(doi):
 def format_citations(events, include_authors=False):
 
     ids = extract_ids(events)
+    if len(ids) == 0: return None
 
     query_params = {
         "instrumentIds" : ids
@@ -261,43 +262,46 @@ def generate_html_table(title, data):
 
 
 def main(doi):
+    # TODO Filter out self in data
 
+    
     # Instrument metadata display
     metadata = get_metadata_display(doi)
 
     if metadata is None:
-        return("Unable to get metadata for %s" % (doi))   
+        return f'Unable to get metadata for {doi}'
+    
+    doiSet = set([metadata['work']['formattedCitation']])
 
     # Data that used an instrument
     datasets_events = get_events_by_doi_and_relation_type(doi, 'is-compiled-by')
     formatted_citations = format_citations(datasets_events)
-    datasets_data = map(lambda item: item['formattedCitation'], formatted_citations['works']['nodes'])
-    datasets_html = generate_html_table('Datasets', datasets_data)
+    datasets_data = map(lambda item: item['formattedCitation'], formatted_citations['works']['nodes']) if formatted_citations is not None else []
+    datasets_html = generate_html_table('Datasets', set(datasets_data) - doiSet)
 
     # Publications that used an instrument
     publications_events = get_events_by_doi_and_relation_type(doi, 'is-referenced-by')
     formatted_citations = format_citations(publications_events)
-    publications_data = map(lambda item: item['formattedCitation'], formatted_citations['works']['nodes'])
-    publications_html = generate_html_table('Publications', publications_data)
+    publications_data = map(lambda item: item['formattedCitation'], formatted_citations['works']['nodes']) if formatted_citations is not None else []
+    publications_html = generate_html_table('Publications', set(publications_data) - doiSet)
 
     # Related works
-    # Instrument connections list and histogram
     related_works_events = get_events_by_doi_and_relation_type(doi, '')
     formatted_citations = format_citations(related_works_events, include_authors=True)
-    related_works_data = map(lambda item: item['formattedCitation'], formatted_citations['works']['nodes'])
-    related_works_html = generate_html_table('Related Works', related_works_data)
+    related_works_data = map(lambda item: item['formattedCitation'], formatted_citations['works']['nodes']) if formatted_citations is not None else [] # Need to filter out duplicates
+    related_works_html = generate_html_table('Related Works', set(related_works_data) - doiSet)
 
     # Co-authors List
-    authors_data = map(lambda item: item['title'], formatted_citations['works']['authors'])
-    authors_html = generate_html_table('Authors', authors_data)
+    authors_data = map(lambda item: item['title'], formatted_citations['works']['authors']) if formatted_citations is not None else []
+    authors_html = generate_html_table('Authors', set(authors_data))
    
 
-    # # Generate and save full HTML
+    # Generate and save full HTML
     html = generate_html(metadata, datasets_html, publications_html, related_works_html, authors_html)
     display(HTML(html))
 
-    # with open('./nfdi.html', 'w') as file:
-    #     file.write(html)
+    with open('./nfdi.html', 'w') as file: file.write(html)
+
 
     # Histogram
     spec = generate_histogram_spec(related_works_events['meta']['occurred'])
