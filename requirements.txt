@@ -16,3 +16,4 @@ pandas==0.25.0
 plotly==4.7.1
 altair==4.1.0
 dfply==0.3.3
+traitlets>=5
