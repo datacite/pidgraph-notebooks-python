@@ -1,0 +1,51 @@
+{
+"@context": "https://raw.githubusercontent.com/codemeta/codemeta/master/codemeta.jsonld",
+"@type": "SoftwareSourceCode",
+"authors": [
+    {
+        "@id": "https://orcid.org/0000-0003-3484-6875",
+        "@type": "Person",
+        "name": "Kristian Garza",
+        "affiliation": "",
+        "mustBeCited": true,
+        "isMaintainer": false,
+        "isRightsHolder": false,
+        "role": "Developer"
+    }
+],
+"identifier": "https://doi.org/10.14454/27b7-9g84",
+"codeRepository": "https://github.com/datacite/pidgraph-notebooks-python/tree/master/user-story-nfdi4ing-instrument",
+"controlledTem": "software",
+"datePublished": "2023-01-07",
+"dateModified": "2023-01-07",
+"dateCreated": "2023-01-07",
+"description": "",
+"isAutomatedBuild": true,
+"issueTracker": "https://github.com/datacite/pidgraph-notebooks-python/issues",
+"licenseId": "MIT",
+"publisher": "DataCite",
+"funding": {
+    "@type": "Award",
+    "identifier": "777523",
+    "funder": {
+      "@type": "Organization",
+      "@id": "https://doi.org/10.13039/501100000780",
+      "name": "European Commission"
+    }
+},
+"tags": [
+        "pid graph",
+        "pid",        
+        "graphql",
+        "nfdi4ing",
+        "jupyter",
+        "instrument"
+    ],
+"name": "nfdi4ing - Intrument",
+"version": "1.0.0",
+"programmingLanguage": {
+"name": "Python",
+"version": "> 3.6.0",
+"URL": "https://www.python.org/"
+    }
+}
