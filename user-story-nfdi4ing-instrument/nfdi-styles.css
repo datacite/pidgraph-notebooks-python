@@ -7,7 +7,7 @@
 	margin-bottom: 50px;
 	padding: 10px;
 }
-
+/*
 .citation-count {
 	width: max-content;
 	margin-top: 15px;
@@ -34,7 +34,7 @@
 	justify-content: space-between;
 	align-items: flex-start;
 }
-
+*/
 table {
 	margin: 5px;
 	border-collapse: collapse;
@@ -47,7 +47,7 @@ tr {
 th {
 	display: flex;
 	padding: 10px;
-
+	
 	color: black;
 	background-color: lightgray;
 	border-top-left-radius: 15px;
