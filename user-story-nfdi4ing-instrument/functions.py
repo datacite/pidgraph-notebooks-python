@@ -6,7 +6,6 @@ import datetime
 import altair as alt
 # import vega
 from IPython.core.display import display, HTML
-alt.renderers.enable('mimetype')
 import regex
 
 
@@ -218,8 +217,8 @@ def generate_histogram_spec(data):
     return spec
 
 
-# def render_histogram(spec):
-#     return(alt.Chart.from_dict(spec)
+def render_histogram(spec):
+    return alt.Chart.from_dict(spec)
 
 
 
@@ -262,9 +261,6 @@ def generate_html_table(title, data):
 
 
 def main(doi):
-    # TODO Filter out self in data
-
-    
     # Instrument metadata display
     metadata = get_metadata_display(doi)
 
