@@ -218,8 +218,8 @@ def generate_histogram_spec(data):
     return spec
 
 
-def render_histogram(spec):
-    return(alt.Chart.from_dict(spec))
+# def render_histogram(spec):
+#     return(alt.Chart.from_dict(spec)
 
 
 
@@ -300,9 +300,9 @@ def main(doi):
     html = generate_html(metadata, datasets_html, publications_html, related_works_html, authors_html)
     display(HTML(html))
 
-    with open('./nfdi.html', 'w') as file: file.write(html)
+    # with open('./nfdi.html', 'w') as file: file.write(html)
 
 
     # Histogram
     spec = generate_histogram_spec(related_works_events['meta']['occurred'])
-    return render_histogram(spec)
+    return alt.Chart.from_dict(spec)
