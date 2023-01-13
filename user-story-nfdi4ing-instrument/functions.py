@@ -137,7 +137,7 @@ def generate_histogram_spec(data):
     lowerBoundYear = int(((thisYear - 10) / 5) * 5)
 
     spec = {
-    "$schema": 'https://vega.github.io/schema/vega-lite/v4.json',
+    "$schema": 'https://vega.github.io/schema/vega-lite/v5.json',
     "data": {
         "values": data
     },
@@ -219,7 +219,8 @@ def generate_histogram_spec(data):
 
 
 def render_histogram(spec):
-    return(alt.Chart.from_dict(spec))
+    chart = alt.Chart.from_dict(spec)
+    return(chart)
 
 
 
@@ -305,4 +306,5 @@ def main(doi):
 
     # Histogram
     spec = generate_histogram_spec(related_works_events['meta']['occurred'])
-    return render_histogram(spec)
+    x = render_histogram(spec)
+    return x.display()
