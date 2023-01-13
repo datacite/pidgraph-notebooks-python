@@ -1,12 +1,15 @@
+import datetime
+import json
+import regex
+from IPython.core.display import display, HTML
+import vega
+import altair as alt
+import altair_saver
 import requests
 from gql import gql, Client
 from gql.transport.requests import RequestsHTTPTransport
-import json
-import datetime
-import altair as alt
-# import vega
-from IPython.core.display import display, HTML
-import regex
+
+alt.renderers.enable('default')
 
 
 _transport = RequestsHTTPTransport(
@@ -217,9 +220,9 @@ def generate_histogram_spec(data):
     return spec
 
 
-def render_histogram(spec):
+def save_histogram(spec):
     chart = alt.Chart.from_dict(spec)
-    return chart
+    chart.save('chart.svg')
 
 
 
@@ -291,7 +294,11 @@ def main(doi):
     # Co-authors List
     authors_data = map(lambda item: item['title'], formatted_citations['works']['authors']) if formatted_citations is not None else []
     authors_html = generate_html_table('Authors', set(authors_data))
-   
+
+
+    # Save histogram as SVG
+    spec = generate_histogram_spec(related_works_events['meta']['occurred'])
+    save_histogram(spec)
 
     # Generate and save full HTML
     html = generate_html(metadata, datasets_html, publications_html, related_works_html, authors_html)
@@ -299,8 +306,4 @@ def main(doi):
 
     # with open('./nfdi.html', 'w') as file: file.write(html)
 
-
-    # Histogram
-    spec = generate_histogram_spec(related_works_events['meta']['occurred'])
-    chart = render_histogram(spec)
-    return chart.display()
+    # return chart.display()
