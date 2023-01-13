@@ -218,7 +218,8 @@ def generate_histogram_spec(data):
 
 
 def render_histogram(spec):
-    return alt.Chart.from_dict(spec)
+    chart = alt.Chart.from_dict(spec)
+    return chart
 
 
 
@@ -301,5 +302,5 @@ def main(doi):
 
     # Histogram
     spec = generate_histogram_spec(related_works_events['meta']['occurred'])
-    alt.Chart.from_dict(spec)
-    return spec
+    chart = render_histogram(spec)
+    return chart.display()
