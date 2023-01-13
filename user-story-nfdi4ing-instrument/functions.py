@@ -218,7 +218,7 @@ def generate_histogram_spec(data):
 
 
 def render_histogram(spec):
-    alt.Chart.from_dict(spec)
+    return alt.Chart.from_dict(spec)
 
 
 
