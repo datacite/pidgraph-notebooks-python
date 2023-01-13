@@ -45,7 +45,7 @@ tr {
 }
 
 th {
-	display: flex;
+	/* display: flex; */
 	padding: 10px;
 	
 	color: black;
@@ -55,8 +55,8 @@ th {
 }
 
 td {
-	display: flex;
+	/* display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: center; */
 	padding: 10px;
 }
