@@ -35,16 +35,16 @@
 	align-items: flex-start;
 }
 */
-table {
+.list {
 	margin: 5px;
 	border-collapse: collapse;
 }
 
-tr {
+.list tr {
 	border-bottom: 1px solid lightgray;
 }
 
-th {
+.list th {
 	/* display: flex; */
 	padding: 10px;
 	
@@ -54,7 +54,7 @@ th {
 	border-top-right-radius: 15px;
 }
 
-td {
+.list td {
 	/* display: flex;
 	flex-direction: column;
 	justify-content: center; */
