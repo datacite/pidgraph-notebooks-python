@@ -1,10 +1,12 @@
 import datetime
 import json
+import os
 import regex
 from IPython.core.display import display, HTML
 import vega
 import altair as alt
 import altair_saver
+import vl_convert as vlc
 import requests
 from gql import gql, Client
 from gql.transport.requests import RequestsHTTPTransport
@@ -73,7 +75,7 @@ def get_metadata_display(doi):
     return data
 
 
-def format_citations(events, include_authors=False):
+def format_citations(events, resourceType, include_authors=False):
 
     ids = extract_ids(events)
     if len(ids) == 0: return None
@@ -89,7 +91,7 @@ def format_citations(events, include_authors=False):
 
     query = gql("""query getInstruments($instrumentIds: [String!])
         {
-            works(ids: $instrumentIds) {
+            """ + resourceType + """(ids: $instrumentIds) {
                 """ + author_query + """
                 nodes {
                     formattedCitation
@@ -97,6 +99,15 @@ def format_citations(events, include_authors=False):
             }
         }
     """)
+
+    # print("""{
+    #     """ + resourceType + """(ids: $instrumentIds) {
+    #         """ + author_query + """
+    #         nodes {
+    #             formattedCitation
+    #         }
+    #     }
+    # }""")
 
     try:
         formatted_citations = client.execute(query, variable_values=json.dumps(query_params))
@@ -220,13 +231,21 @@ def generate_histogram_spec(data):
     return spec
 
 
-def save_histogram(spec):
+def save_histogram(spec, name):
     chart = alt.Chart.from_dict(spec)
-    chart.save('chart.svg')
+    # chart.save('chart.svg')
+    # os.remove('chart.png')
+
+    png_data = vlc.vegalite_to_png(chart.to_dict())
+    with open(f'charts/{name}.png', 'wb') as f:
+        f.write(png_data)
+    # chart_svg = vlc.vegalite_to_svg(chart.to_dict())
+    # with open('chart.svg', "wt") as f:
+    #     f.write(chart_svg)
 
 
 
-def generate_html(metadata, datasets_table_html, publications_table_html, related_works_table_html, authors_table_html):
+def generate_html(metadata, chart_name, datasets_table_html, publications_table_html, related_works_table_html, authors_table_html):
     HTML_TEMPLATE_FILE = './nfdi-template.html'
     STYLES_FILE = './nfdi-styles.css'
     html = ''
@@ -236,12 +255,27 @@ def generate_html(metadata, datasets_table_html, publications_table_html, relate
         html = html_template.read()
         styles = styles_file.read()
     
+    formatted_citation = ''
+    citation_count = ''
+    repo_link = ''
+    repo_name = ''
+
+    if metadata is not None and metadata['work'] is not None:
+        formatted_citation = metadata['work']['formattedCitation']
+        citation_count = metadata['work']['citationCount']
+
+        if metadata['work']['repository'] is not None:
+            repo_link = metadata['work']['repository']['uid']
+            repo_name = metadata['work']['repository']['name']
+
+    
     html = html.format(
         style=styles,
-        formatted_citation=metadata['work']['formattedCitation'],
-        citation_count=metadata['work']['citationCount'],
-        repository_link=metadata["work"]["repository"]["uid"],
-        repository_name=metadata["work"]["repository"]["name"],
+        formatted_citation=formatted_citation,
+        citation_count=citation_count,
+        repository_link=repo_link,
+        repository_name=repo_name,
+        chart=chart_name,
         datasets=datasets_table_html,
         publications=publications_table_html,
         related_works=related_works_table_html,
@@ -255,7 +289,7 @@ def generate_html_table(title, data):
     for item in data:
         rows += '<tr><td>' + item + '</td></tr>'
     
-    html = f"""<table>
+    html = f"""<table class="list">
         <tr><th><h3>{title}</h3></tr></th>
         {rows}
     </table>"""
@@ -275,35 +309,34 @@ def main(doi):
 
     # Data that used an instrument
     datasets_events = get_events_by_doi_and_relation_type(doi, 'is-compiled-by')
-    formatted_citations = format_citations(datasets_events)
-    datasets_data = map(lambda item: item['formattedCitation'], formatted_citations['works']['nodes']) if formatted_citations is not None else []
+    formatted_citations = format_citations(datasets_events, 'datasets')
+    datasets_data = map(lambda item: item['formattedCitation'], formatted_citations['datasets']['nodes']) if formatted_citations is not None else []
     datasets_html = generate_html_table('Datasets', set(datasets_data) - doiSet)
 
-    # Publications that used an instrument
+    # Publications that used an instrument (10.17035/d.2019.0072633299)
     publications_events = get_events_by_doi_and_relation_type(doi, 'is-referenced-by')
-    formatted_citations = format_citations(publications_events)
-    publications_data = map(lambda item: item['formattedCitation'], formatted_citations['works']['nodes']) if formatted_citations is not None else []
-    publications_html = generate_html_table('Publications', set(publications_data) - doiSet)
+    formatted_citations = format_citations(publications_events, 'publications')
+    publications_data = map(lambda item: item['formattedCitation'], formatted_citations['publications']['nodes']) if formatted_citations is not None else []
+    publications_html = generate_html_table('Publications', set(publications_data)) # - doiSet)
 
     # Related works
     related_works_events = get_events_by_doi_and_relation_type(doi, '')
-    formatted_citations = format_citations(related_works_events, include_authors=True)
+    formatted_citations = format_citations(related_works_events, 'works', include_authors=True)
     related_works_data = map(lambda item: item['formattedCitation'], formatted_citations['works']['nodes']) if formatted_citations is not None else [] # Need to filter out duplicates
     related_works_html = generate_html_table('Related Works', set(related_works_data) - doiSet)
 
     # Co-authors List
-    authors_data = map(lambda item: item['title'], formatted_citations['works']['authors']) if formatted_citations is not None else []
+    authors_data = map(lambda item: f"{item['title']}<br>{item['id']}", formatted_citations['works']['authors']) if formatted_citations is not None else []
     authors_html = generate_html_table('Authors', set(authors_data))
 
 
     # Save histogram as SVG
     spec = generate_histogram_spec(related_works_events['meta']['occurred'])
-    save_histogram(spec)
+    chart_name = doi.replace('/', '_')
+    save_histogram(spec, chart_name)
 
     # Generate and save full HTML
-    html = generate_html(metadata, datasets_html, publications_html, related_works_html, authors_html)
+    html = generate_html(metadata, chart_name, datasets_html, publications_html, related_works_html, authors_html)
     display(HTML(html))
 
     # with open('./nfdi.html', 'w') as file: file.write(html)
-
-    # return chart.display()
