@@ -100,15 +100,6 @@ def format_citations(events, resourceType, include_authors=False):
         }
     """)
 
-    # print("""{
-    #     """ + resourceType + """(ids: $instrumentIds) {
-    #         """ + author_query + """
-    #         nodes {
-    #             formattedCitation
-    #         }
-    #     }
-    # }""")
-
     try:
         formatted_citations = client.execute(query, variable_values=json.dumps(query_params))
     except Exception as e:
@@ -233,16 +224,10 @@ def generate_histogram_spec(data):
 
 def save_histogram(spec, name):
     chart = alt.Chart.from_dict(spec)
-    # chart.save('chart.svg')
-    # os.remove('chart.png')
 
     png_data = vlc.vegalite_to_png(chart.to_dict())
     with open(f'charts/{name}.png', 'wb') as f:
         f.write(png_data)
-    # chart_svg = vlc.vegalite_to_svg(chart.to_dict())
-    # with open('chart.svg', "wt") as f:
-    #     f.write(chart_svg)
-
 
 
 def generate_html(metadata, chart_name, datasets_table_html, publications_table_html, related_works_table_html, authors_table_html):
@@ -326,7 +311,7 @@ def main(doi):
     related_works_html = generate_html_table('Related Works', set(related_works_data) - doiSet)
 
     # Co-authors List
-    authors_data = map(lambda item: f"{item['title']}<br>{item['id']}", formatted_citations['works']['authors']) if formatted_citations is not None else []
+    authors_data = map(lambda item: f"{item['title']}<br><a href='{item['id']}'>{item['id']}</a>", formatted_citations['works']['authors']) if formatted_citations is not None else []
     authors_html = generate_html_table('Authors', set(authors_data))
 
 
