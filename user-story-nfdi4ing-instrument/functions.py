@@ -62,6 +62,11 @@ def get_metadata_display(doi):
             uid
             name
           }
+          citations{
+            nodes{
+                formattedCitation
+            }
+          }
         }
       }
     """)
@@ -298,11 +303,14 @@ def main(doi):
     datasets_data = map(lambda item: item['formattedCitation'], formatted_citations['datasets']['nodes']) if formatted_citations is not None else []
     datasets_html = generate_html_table('Datasets', set(datasets_data) - doiSet)
 
-    # Publications that used an instrument (10.17035/d.2019.0072633299)
-    publications_events = get_events_by_doi_and_relation_type(doi, 'is-referenced-by')
-    formatted_citations = format_citations(publications_events, 'publications')
-    publications_data = map(lambda item: item['formattedCitation'], formatted_citations['publications']['nodes']) if formatted_citations is not None else []
-    publications_html = generate_html_table('Publications', set(publications_data)) # - doiSet)
+    # # Publications that used an instrument (10.17035/d.2019.0072633299)
+    # publications_events = get_events_by_doi_and_relation_type(doi, 'is-referenced-by')
+    # formatted_citations = format_citations(publications_events, 'publications')
+    # publications_data = map(lambda item: item['formattedCitation'], formatted_citations['publications']['nodes']) if formatted_citations is not None else []
+    # publications_html = generate_html_table('Publications', set(publications_data)) # - doiSet)
+
+    citations_data = map(lambda item: item['formattedCitation'], metadata['work']['citations']['nodes']) if formatted_citations is not None else []
+    citations_html = generate_html_table('Citations', set(citations_data)) # - doiSet)
 
     # Related works
     related_works_events = get_events_by_doi_and_relation_type(doi, '')
@@ -321,7 +329,7 @@ def main(doi):
     save_histogram(spec, chart_name)
 
     # Generate and save full HTML
-    html = generate_html(metadata, chart_name, datasets_html, publications_html, related_works_html, authors_html)
+    html = generate_html(metadata, chart_name, datasets_html, citations_html, related_works_html, authors_html)
     display(HTML(html))
 
     # with open('./nfdi.html', 'w') as file: file.write(html)
