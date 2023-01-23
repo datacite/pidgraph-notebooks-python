@@ -64,6 +64,7 @@ def get_metadata_display(doi):
           }
           citations{
             nodes{
+                id
                 formattedCitation
             }
           }
