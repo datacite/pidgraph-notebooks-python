@@ -288,6 +288,15 @@ def generate_html_table(title, data):
 
     return html
 
+def deduplicate_ids(datasets_formatted_citations, citations_formatted_citations, related_works_formatted_citations):
+
+    datasets_ids = map(lambda item: item['id'], datasets_formatted_citations['datasets']['nodes']) if datasets_formatted_citations is not None else []
+    citations_ids = map(lambda item: item['id'], citations_formatted_citations['work']['citations']['nodes']) if citations_formatted_citations is not None else []
+    ids = list(datasets_ids) + list(citations_ids) + [citations_formatted_citations['work']['id']]
+
+    related_works_formatted_citations = list(filter(lambda item: item['id'] not in ids, related_works_formatted_citations['works']['nodes'])) if related_works_formatted_citations is not None else []
+
+    return related_works_formatted_citations
 
 
 def main(doi):
@@ -301,8 +310,8 @@ def main(doi):
 
     # Data that used an instrument
     datasets_events = get_events_by_doi_and_relation_type(doi, 'is-compiled-by')
-    formatted_citations = format_citations(datasets_events, 'datasets')
-    datasets_data = map(lambda item: item['formattedCitation'], formatted_citations['datasets']['nodes']) if formatted_citations is not None else []
+    datasets_formatted_citations = format_citations(datasets_events, 'datasets')
+    datasets_data = map(lambda item: item['formattedCitation'], datasets_formatted_citations['datasets']['nodes']) if datasets_formatted_citations is not None else []
     datasets_html = generate_html_table('Datasets', set(datasets_data) - doiSet)
 
     # Citations (10.1002/cssc.201900799)
@@ -310,13 +319,10 @@ def main(doi):
     citations_html = generate_html_table('Citations', set(citations_data) - doiSet)
 
     # Related works
-    datasets_ids = map(lambda item: item['id'], formatted_citations['datasets']['nodes']) if formatted_citations is not None else []
-    citations_ids = map(lambda item: item['id'], metadata['work']['citations']['nodes']) if metadata['work']['citations']['nodes'] is not None else []
-    ids = list(datasets_ids) + list(citations_ids) + [metadata['work']['id']]
-
     related_works_events = get_events_by_doi_and_relation_type(doi, '')
     formatted_citations = format_citations(related_works_events, 'works', include_authors=True)
-    related_works_formatted_citations = list(filter(lambda item: item['id'] not in ids, formatted_citations['works']['nodes'])) if formatted_citations is not None else []
+
+    related_works_formatted_citations = deduplicate_ids(datasets_formatted_citations, metadata, formatted_citations)
     related_works_data = map(lambda item: item['formattedCitation'], related_works_formatted_citations) if related_works_formatted_citations is not None else []
     related_works_html = generate_html_table('Other Related Works', set(related_works_data))
 
