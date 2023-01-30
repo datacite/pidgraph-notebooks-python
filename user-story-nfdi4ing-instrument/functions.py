@@ -62,6 +62,12 @@ def get_metadata_display(doi):
             uid
             name
           }
+          citations{
+            nodes{
+                id
+                formattedCitation
+            }
+          }
         }
       }
     """)
@@ -94,6 +100,7 @@ def format_citations(events, resourceType, include_authors=False):
             """ + resourceType + """(ids: $instrumentIds) {
                 """ + author_query + """
                 nodes {
+                    id
                     formattedCitation
                 }
             }
@@ -281,6 +288,15 @@ def generate_html_table(title, data):
 
     return html
 
+def deduplicate_ids(datasets_formatted_citations, citations_formatted_citations, related_works_formatted_citations):
+
+    datasets_ids = map(lambda item: item['id'], datasets_formatted_citations['datasets']['nodes']) if datasets_formatted_citations is not None else []
+    citations_ids = map(lambda item: item['id'], citations_formatted_citations['work']['citations']['nodes']) if citations_formatted_citations is not None else []
+    ids = list(datasets_ids) + list(citations_ids) + [citations_formatted_citations['work']['id']]
+
+    related_works_formatted_citations = list(filter(lambda item: item['id'] not in ids, related_works_formatted_citations['works']['nodes'])) if related_works_formatted_citations is not None else []
+
+    return related_works_formatted_citations
 
 
 def main(doi):
@@ -294,21 +310,21 @@ def main(doi):
 
     # Data that used an instrument
     datasets_events = get_events_by_doi_and_relation_type(doi, 'is-compiled-by')
-    formatted_citations = format_citations(datasets_events, 'datasets')
-    datasets_data = map(lambda item: item['formattedCitation'], formatted_citations['datasets']['nodes']) if formatted_citations is not None else []
+    datasets_formatted_citations = format_citations(datasets_events, 'datasets')
+    datasets_data = map(lambda item: item['formattedCitation'], datasets_formatted_citations['datasets']['nodes']) if datasets_formatted_citations is not None else []
     datasets_html = generate_html_table('Datasets', set(datasets_data) - doiSet)
 
-    # Publications that used an instrument (10.17035/d.2019.0072633299)
-    publications_events = get_events_by_doi_and_relation_type(doi, 'is-referenced-by')
-    formatted_citations = format_citations(publications_events, 'publications')
-    publications_data = map(lambda item: item['formattedCitation'], formatted_citations['publications']['nodes']) if formatted_citations is not None else []
-    publications_html = generate_html_table('Publications', set(publications_data)) # - doiSet)
+    # Citations (10.1002/cssc.201900799)
+    citations_data = map(lambda item: item['formattedCitation'], metadata['work']['citations']['nodes']) if metadata['work']['citations']['nodes'] is not None else []
+    citations_html = generate_html_table('Citations', set(citations_data) - doiSet)
 
     # Related works
     related_works_events = get_events_by_doi_and_relation_type(doi, '')
     formatted_citations = format_citations(related_works_events, 'works', include_authors=True)
-    related_works_data = map(lambda item: item['formattedCitation'], formatted_citations['works']['nodes']) if formatted_citations is not None else [] # Need to filter out duplicates
-    related_works_html = generate_html_table('Related Works', set(related_works_data) - doiSet)
+
+    related_works_formatted_citations = deduplicate_ids(datasets_formatted_citations, metadata, formatted_citations)
+    related_works_data = map(lambda item: item['formattedCitation'], related_works_formatted_citations) if related_works_formatted_citations is not None else []
+    related_works_html = generate_html_table('Other Related Works', set(related_works_data))
 
     # Co-authors List
     authors_data = map(lambda item: f"{item['title']}<br><a href='{item['id']}'>{item['id']}</a>", formatted_citations['works']['authors']) if formatted_citations is not None else []
@@ -321,7 +337,7 @@ def main(doi):
     save_histogram(spec, chart_name)
 
     # Generate and save full HTML
-    html = generate_html(metadata, chart_name, datasets_html, publications_html, related_works_html, authors_html)
+    html = generate_html(metadata, chart_name, datasets_html, citations_html, related_works_html, authors_html)
     display(HTML(html))
 
     # with open('./nfdi.html', 'w') as file: file.write(html)
