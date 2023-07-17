@@ -1,1 +1,1 @@
-jupyter labextension install @jupyter-widgets/jupyterlab-manager --debug
+jupyter labextension install @jupyter-widgets/jupyterlab-manager --debug --dev-build=False --minimize=False
